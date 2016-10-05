@@ -4,7 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { AuthGuard } from './_guards/index';
+import { AuthenticationService, UserService } from '../app/_services/index';
+import { LoginComponent } from './login/index';
 
+// used to create fake backend
+import { fakeBackendProvider } from './_helpers/index';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BaseRequestOptions } from '@angular/http';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -36,7 +43,8 @@ type StoreType = {
 @NgModule({
   bootstrap: [App],
   declarations: [
-    App
+    App,
+    LoginComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -49,8 +57,15 @@ type StoreType = {
     routing
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
+    AuthGuard,
+    AuthenticationService,
+    UserService,
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+
+    fakeBackendProvider,
+    MockBackend,
+    BaseRequestOptions
   ]
 })
 

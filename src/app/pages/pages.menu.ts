@@ -38,15 +38,6 @@ export const PAGES_MENU = [
           }
         }
       },
-      {
-        path: '',
-        data: {
-          menu: {
-            title: 'Login',
-            url: '#/login'
-          }
-        }
-      }
     ]
   }
 ];
