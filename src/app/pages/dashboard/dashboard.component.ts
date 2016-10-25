@@ -12,8 +12,7 @@ export class Dashboard {
   result:Object;
 
   constructor(subscriptionService: SubscriptionService){
-    this.result = {people:[]};
     subscriptionService.getEntries().subscribe(res => this.result = res);
-    console.log(this.result.toString());
+    console.log(this.result);
   }
 }
