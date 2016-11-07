@@ -1,15 +1,16 @@
-import {Http, Response} from '@angular/http'
+import {Http, Headers} from '@angular/http'
 import {Injectable} from '@angular/core'
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class SubscriptionService {
 
-  http:Http;
-  constructor(http:Http){
-    this.http = http;
+
+  constructor(private http: Http){
+
   }
 
-  getEntries(){
-    return this.http.get('https://instanetwork.herokuapp.com/subscription/1').map((res: Response) => res.json());
+  getEntries() {
+    return this.http.get('https://instanetwork.herokuapp.com/subscription/1').map(res => res.json());
   }
 }

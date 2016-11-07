@@ -2,6 +2,8 @@ import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
+import { HttpModule } from '@angular/http';
+import {SubscriptionService} from '../../_services/subscription.service';
 
 import { Dashboard } from './dashboard.component';
 import { routing }       from './dashboard.routing';
@@ -11,12 +13,14 @@ import { routing }       from './dashboard.routing';
     CommonModule,
     FormsModule,
     NgaModule,
-    routing
+    routing,
+    HttpModule
   ],
   declarations: [
     Dashboard
   ],
   providers: [
+    SubscriptionService
   ]
 })
 export default class DashboardModule {}
