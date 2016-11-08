@@ -1,6 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {SubscriptionService} from '../../_services/subscription.service';
 import 'rxjs/Rx';
+import {Subscription} from '../../_models/subscription';
 
 @Component({
   selector: 'dashboard',
@@ -9,19 +10,15 @@ import 'rxjs/Rx';
   template: require('./dashboard.html'),
 })
 export class Dashboard {
-  getData: string;
+  private subs: Subscription[];
 
   constructor(private subscriptionService: SubscriptionService) {
   }
 
   ngOnInit() {
-    console.log("test!!");
     this.subscriptionService.getEntries()
-      .subscribe(data => this.getData = JSON.stringify(data),
-        error => console.log("Error!"),
-        () => console.log("finished!")
-      );
-    console.log(this.getData);
-    console.log("whoa");
+      .subscribe(subs => {
+        this.subs = subs
+      });
   }
 }

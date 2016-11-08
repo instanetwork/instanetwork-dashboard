@@ -3,4 +3,5 @@
     id?: number;
     package: Date;
     end: Date;
+    start: Date;
 }
