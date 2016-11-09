@@ -24,7 +24,11 @@
             <td ngclass="nowrap" class="nowrap">{{ sub.package }}</td>
             <td class="align-right">{{ sub.start | date: 'yyyy-MM-dd' }}</td>
             <td class="align-right" datetime="yyyy/MM/dd">{{ sub.end | date: 'yyyy-MM-dd' }}</td>
-            <td class="align-right"><i class="ion-checkmark-round"></i></td>
+            <td class="align-right">
+              <div *ngIf="(currDate >= sub.start) && (currDate <= sub.end)">
+                <i class="ion-checkmark-round"></i>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -38,4 +42,3 @@
 
 <div class="row shift-up">
 </div>
-

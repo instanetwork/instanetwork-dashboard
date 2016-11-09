@@ -1,7 +1,7 @@
 ﻿export interface Subscription {
     subscription_id: number;
     id?: number;
-    package: Date;
-    end: Date;
-    start: Date;
+    package: string;
+    end: number;
+    start: number;
 }
