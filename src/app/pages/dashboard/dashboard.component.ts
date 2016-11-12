@@ -50,6 +50,9 @@ export class Dashboard {
 
   private addTrial() {
     this.trialClicked = true;
-    console.log("test");
+    this.subscriptionService.addTrial()
+      .subscribe(subs => {
+        this.subs = this.formatJson(subs);
+      });
   }
 }
