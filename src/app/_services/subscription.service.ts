@@ -7,12 +7,12 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class SubscriptionService {
   private url = 'https://instanetwork.herokuapp.com/subscription/';
-  
+  private id = JSON.parse(localStorage.getItem('currentUser')).id;
   constructor(private http: Http){
 
   }
 
   getEntries(): Observable<Subscription[]> {
-    return this.http.get(this.url + '71').map(res => res.json());
+    return this.http.get(this.url + this.id).map(res => res.json());
   }
 }

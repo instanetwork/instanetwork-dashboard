@@ -8,10 +8,6 @@ import { AuthGuard } from './_guards/index';
 import { AuthenticationService, UserService } from '../app/_services/index';
 import { LoginComponent } from './login/index';
 
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers/index';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { BaseRequestOptions } from '@angular/http';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -62,10 +58,6 @@ type StoreType = {
     UserService,
     ENV_PROVIDERS,
     APP_PROVIDERS,
-
-    fakeBackendProvider,
-    MockBackend,
-    BaseRequestOptions
   ]
 })
 
