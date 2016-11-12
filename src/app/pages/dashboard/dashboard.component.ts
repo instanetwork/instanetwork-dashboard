@@ -14,10 +14,12 @@ export class Dashboard {
   private currDate: number;
   private trial: boolean;
   private subExists: boolean;
+  private trialClicked: boolean;
 
   constructor(private subscriptionService: SubscriptionService) {
     this.trial = false;
     this.subExists = false;
+    this.trialClicked = false;
     this.currDate = new Date().setUTCHours(4);
   }
 
@@ -44,5 +46,10 @@ export class Dashboard {
     this.subExists = true;
     this.trial = false;
     return _subs;
+  }
+
+  private addTrial() {
+    this.trialClicked = true;
+    console.log("test");
   }
 }
