@@ -12,8 +12,12 @@ import {Subscription} from '../../_models/subscription';
 export class Dashboard {
   public subs: Subscription[];
   private currDate: number;
+  private trial: boolean;
+  private subExists: boolean;
 
   constructor(private subscriptionService: SubscriptionService) {
+    this.trial = false;
+    this.subExists = false;
     this.currDate = new Date().setUTCHours(4);
   }
 
@@ -24,11 +28,21 @@ export class Dashboard {
       });
   }
 
-  private formatJson (_subs: Subscription[]){
-    for (var _i = 0; _i < _subs.length; _i++) {
-       _subs[_i].start = new Date(_subs[_i].start).setUTCHours(4);
-       _subs[_i].end = new Date(_subs[_i].end).setUTCHours(4);
+  private formatJson(_subs: Subscription[]) {
+
+    if (_subs.length == 0) {
+      this.trial = true;
+      this.subExists = false;
+      return _subs;
     }
+
+    for (var _i = 0; _i < _subs.length; _i++) {
+      _subs[_i].start = new Date(_subs[_i].start).setUTCHours(4);
+      _subs[_i].end = new Date(_subs[_i].end).setUTCHours(4);
+    }
+
+    this.subExists = true;
+    this.trial = false;
     return _subs;
   }
 }

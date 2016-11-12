@@ -1,4 +1,3 @@
-
 <div class="row">
 
 </div>
@@ -7,7 +6,7 @@
 </div>
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <div class="row">
+    <div class="row" *ngIf="subExists == true && trial == false">
       <table class="table table-hover">
         <thead>
         <tr class="black-muted-bg">
@@ -19,19 +18,24 @@
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let sub of subs" class="no-top-border">
-            <td><img height="20" width="20" src="../../../assets/img/app/browsers/chrome.svg"></td>
-            <td ngclass="nowrap" class="nowrap">{{ sub.package }}</td>
-            <td class="align-right">{{ sub.start | date: 'yyyy-MM-dd' }}</td>
-            <td class="align-right" datetime="yyyy/MM/dd">{{ sub.end | date: 'yyyy-MM-dd' }}</td>
-            <td class="align-right">
-              <div *ngIf="(currDate >= sub.start) && (currDate <= sub.end)">
-                <i class="ion-checkmark-round"></i>
-              </div>
-            </td>
-          </tr>
+        <tr *ngFor="let sub of subs" class="no-top-border">
+          <td><img height="20" width="20" src="../../../assets/img/app/browsers/chrome.svg"></td>
+          <td class="nowrap">{{ sub.package }}</td>
+          <td class="align-right">{{ sub.start | date: 'yyyy-MM-dd' }}</td>
+          <td class="align-right">{{ sub.end | date: 'yyyy-MM-dd' }}</td>
+          <td class="align-right">
+            <div *ngIf="(currDate >= sub.start) && (currDate <= sub.end)">
+              <i class="ion-checkmark-round"></i>
+            </div>
+          </td>
+        </tr>
         </tbody>
       </table>
+    </div>
+    <div class="row" *ngIf="subExists == false && trial == true">
+      <button class="btn btn-success btn-with-icon" type="button"><i class="ion-android-checkmark-circle"></i>Start
+        48 Trial
+      </button>
     </div>
   </div>
 
