@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
+import { DropdownModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { Subscription } from './subscription.component.ts';
 import { routing }       from './subscription.routing.ts';
@@ -11,7 +12,9 @@ import { routing }       from './subscription.routing.ts';
     CommonModule,
     FormsModule,
     NgaModule,
-    routing
+    routing,
+    DropdownModule,
+    ModalModule,
   ],
   declarations: [
     Subscription
