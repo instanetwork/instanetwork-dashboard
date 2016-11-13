@@ -9,7 +9,9 @@ import {Component, ViewEncapsulation} from '@angular/core';
 export class Service {
   private hashtags: string[] = [];
   private inputValue: string = "";
-  private inputValid: boolean = false;
+  private inputInvalid: boolean = false;
+  private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
+
   constructor() {
     this.hashtags.push("Love");
     this.hashtags.push("Smile");
@@ -19,10 +21,15 @@ export class Service {
   }
 
   private addHashtag() {
-    this.hashtags.unshift(this.inputValue);
+    if (this.inputInvalid == false && this.inputValue.length !== 0) {
+      this.hashtags.unshift(this.inputValue);
+      this.inputValue = "";
+    }
   }
+
   newItemChanged(event: KeyboardEvent): void {
     const target = <HTMLInputElement> event.target;
     this.inputValue = target.value;
+    this.inputInvalid = this.allowedTagCharacters.test(this.inputValue);
   }
 }

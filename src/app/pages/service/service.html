@@ -1,10 +1,17 @@
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <div class="input-group">
+    <div *ngIf="inputInvalid == false" class="input-group">
       <span class="input-group-addon addon-left input-group-addon-success">#</span>
-      <input type="text" class="form-control with-success-addon" placeholder="Enter Hashtag" [value]="inputValue" (input)="newItemChanged($event)">
+      <input type="text" class="form-control with-success-addon" placeholder="Enter Hashtag" [value]="inputValue" (input)="newItemChanged($event)" autofocus>
       <span class="input-group-btn">
-        <button class="btn btn-success" type="button" (click)="addHashtag()">Add</button>
+        <button class="btn btn-success" type="button" (click)="inputValue.length !== 0 && addHashtag()" [class.disabled]="inputValue.length === 0" >Add</button>
+      </span>
+    </div>
+    <div *ngIf="inputInvalid == true" class="input-group">
+      <span class="input-group-addon addon-left input-group-addon-danger">#</span>
+      <input type="text" class="form-control with-danger-addon" placeholder="Enter Hashtag" [value]="inputValue" (input)="newItemChanged($event)">
+      <span class="input-group-btn">
+        <button class="btn btn-danger" type="button" (click)="false && addHashtag()" [class.disabled]="true">Add</button>
       </span>
     </div>
   </div>
