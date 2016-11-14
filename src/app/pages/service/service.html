@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
     <div *ngIf="inputInvalid == false" class="input-group">
-      <span class="input-group-addon addon-left input-group-addon-success">#</span>
-      <input type="text" class="form-control with-success-addon" placeholder="Enter Hashtag" maxlength="50"
+      <span class="input-group-addon addon-left input-group-addon-primary">#</span>
+      <input type="text" class="form-control with-primary-addon" placeholder="Enter Hashtag" maxlength="50"
              (keyup.enter)="addHashtag()" [value]="inputValue" (input)="newItemChanged($event)" autofocus>
       <span class="input-group-btn">
-        <button class="btn btn-success" type="button" (click)="inputValue.length !== 0 && addHashtag()"
+        <button class="btn btn-primary" type="button" (click)="inputValue.length !== 0 && addHashtag()"
                 [class.disabled]="inputValue.length === 0">Add</button>
       </span>
     </div>
@@ -34,11 +34,18 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-success btn-with-icon"><i class="ion-android-checkmark-circle"></i>Save</button>
-    <button id="selectActions" type="button" class="btn btn-danger btn-icon"><i class="ion-trash-a"></i></button>
+    <button type="button" class="btn btn-success btn-with-icon"><i class="ion-android-checkmark-circle"></i>Save
+    </button>
+    <button id="selectActions" type="button" class="btn btn-danger btn-with-icon"><i class="ion-trash-b"></i>Delete
+    </button>
   </div>
 </div>
 
-<div class="row shift-up">
-</div>
+<!--<div class="row shift-up">-->
+  <!--<div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">-->
+    <!--<div class="button-wrapper">-->
+      <!--<button type="button" id="networkingButton" class="btn btn-success btn-raised"><h3>Start<br>Networking</h3></button>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 

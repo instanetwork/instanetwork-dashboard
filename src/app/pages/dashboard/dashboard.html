@@ -33,7 +33,7 @@
       </table>
     </div>
     <div class="row" *ngIf="subExists == false && trial == true">
-      <button class="btn btn-success btn-with-icon" type="button" (click)="trialClicked && addTrial()" [class.disabled]="trialClicked"><i class="ion-android-checkmark-circle"></i>Start
+      <button class="btn btn-success btn-with-icon" type="button" (click)="!trialClicked && addTrial()" [class.disabled]="trialClicked"><i class="ion-android-checkmark-circle"></i>Start
         48 Trial
       </button>
     </div>
