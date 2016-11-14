@@ -22,4 +22,4 @@ import { routing }       from './subscription.routing.ts';
   providers: [
   ]
 })
-export default class DashboardModule {}
+export default class SubscriptionModule {}
