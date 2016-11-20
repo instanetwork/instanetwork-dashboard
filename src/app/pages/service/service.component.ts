@@ -1,6 +1,8 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
 import {HashtagService} from '../../_services/hashtag.service';
 import {Hashtag} from '../../_models/hashtag';
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 @Component({
   selector: 'service',
@@ -17,9 +19,9 @@ export class Service {
   private error: string = "";
   private highlightedTags: string[] = [];
 
-  constructor(private hashtagService: HashtagService) {
+  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+    overlay.defaultViewContainer = vcRef;
   }
-
   ngOnInit() {
     this.hashtagService.getHashtags()
       .subscribe(tags => {
@@ -84,4 +86,29 @@ export class Service {
     // console.log(this.hashtags[0].indexOf(val));
   }
 
+  onSave() {
+    var test = this.modal.confirm()
+      .size('lg')
+      .isBlocking(true)
+      .showClose(true)
+      .keyboard(27)
+      .title('Save')
+      .titleHtml('Are you sure you want to save hashtags?')
+      .body('These hashtags will take affect during shutdown time between 12-1 am/pm Est. You can save your hashtags and use them immediately by starting or restarting the service.')
+      .okBtn('Save')
+      .okBtnClass('btn btn-success')
+      .cancelBtn('Cancel')
+      .cancelBtnClass('btn btn-danger')
+      .open()
+      .then(dialog => dialog.result)
+      .then(result => {
+        this.onSaveConfirm();
+      })
+      .catch((ex) => {
+      });
+  }
+
+  onSaveConfirm() {
+    console.log("test");
+  }
 }
