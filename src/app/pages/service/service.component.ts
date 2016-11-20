@@ -1,8 +1,8 @@
 import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
 import {HashtagService} from '../../_services/hashtag.service';
 import {Hashtag} from '../../_models/hashtag';
-import { Overlay } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap';
+import {Overlay} from 'angular2-modal';
+import {Modal} from 'angular2-modal/plugins/bootstrap';
 
 @Component({
   selector: 'service',
@@ -102,13 +102,37 @@ export class Service {
       .open()
       .then(dialog => dialog.result)
       .then(result => {
-        this.onSaveConfirm();
+        this.onSaveConfirmed();
       })
       .catch((ex) => {
       });
   }
 
-  onSaveConfirm() {
-    console.log("test");
+  onSaveConfirmed() {
+    this.hashtagService.setHashtags()
+      .subscribe(res => {
+          this.modal.alert()
+            .size('sm')
+            .isBlocking(true)
+            .showClose(true)
+            .keyboard(27)
+            .title('Completed')
+            .titleHtml('Hashtags Upload Complete')
+            .okBtnClass('btn btn-success')
+            .body('Your hashtags have been updated.')
+            .open();
+        },
+        err => {
+          this.modal.alert()
+            .size('sm')
+            .isBlocking(true)
+            .showClose(true)
+            .keyboard(27)
+            .title('Failed')
+            .titleHtml('Hashtags Upload Failed')
+            .okBtnClass('btn btn-danger')
+            .body('Unable to save hashtags, please try again later.')
+            .open();
+        });
   }
 }

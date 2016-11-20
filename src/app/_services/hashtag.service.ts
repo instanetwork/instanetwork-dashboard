@@ -15,4 +15,10 @@ export class HashtagService {
   getHashtags(): Observable<Hashtag[]> {
     return this.http.get(this.url + this.id).map(res => res.json());
   }
+
+  setHashtags(tags): Observable<Hashtag[]> {
+    let headers = new Headers({ 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.url + 'set/' + this.id,tags,options).map(res => res.json());
+  }
 }
