@@ -15,6 +15,7 @@ export class Service {
   private inputInvalid: boolean = false;
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
   private error: string = "";
+  private highlightedTags: string[] = [];
 
   constructor(private hashtagService: HashtagService) {
   }
@@ -44,7 +45,7 @@ export class Service {
     return _tags;
   }
 
-  private addHashtag() {
+  addHashtag() {
     if (this.inputInvalid == false && this.inputValue.length !== 0) {
       for (var _i = 0; _i < this.hashtags.length; _i++) {
         if (this.hashtags[_i].toLowerCase() == this.inputValue.toLowerCase()) {
@@ -73,4 +74,14 @@ export class Service {
       this.addHashtag();
     }
   }
+
+  deleteHashtag() {
+    console.log("test");
+  }
+
+  highlightedHashtags(event: KeyboardEvent, selected): void {
+    const target = <HTMLInputElement> event.target;
+    // console.log(this.hashtags[0].indexOf(val));
+  }
+
 }

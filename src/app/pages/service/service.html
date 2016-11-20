@@ -25,8 +25,8 @@
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
     <div class="form-group">
       <label for="hashtaglist">Hashtag List</label>
-      <select multiple class="form-control" id="hashtaglist">
-        <option *ngFor="let tag of hashtags">{{tag}}</option>
+      <select multiple class="form-control" id="hashtaglist" (keyup.delete)="deleteHashtag()" >
+        <option *ngFor="let tag of hashtags" (click)="highlightedHashtags($event, tag)" >{{tag}}</option>
       </select>
     </div>
   </div>
@@ -40,6 +40,21 @@
     </button>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
+    <br>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
+    <button type="button" class="btn btn-default btn-lg"><i class="ion-ios-play"></i>
+      Start Service
+    </button>
+  </div>
+</div>
+
 
 <!--<div class="row shift-up">-->
   <!--<div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">-->

@@ -12,8 +12,10 @@ export class BaPageTop {
 
   public isScrolled:boolean = false;
   public isMenuCollapsed:boolean = false;
+  public username:string = "Settings";
 
   constructor(private _state:GlobalState) {
+    this.username = JSON.parse(localStorage.getItem('currentUser')).username;
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
