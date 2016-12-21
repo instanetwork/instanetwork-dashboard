@@ -77,13 +77,14 @@ export class Service {
     }
   }
 
-  deleteHashtag() {
-    console.log("test");
-  }
+  deleteHashtag(event, index) {
+    var key = event.keyCode || event.charCode;
 
-  highlightedHashtags(event: KeyboardEvent, selected): void {
-    const target = <HTMLInputElement> event.target;
-    // console.log(this.hashtags[0].indexOf(val));
+    if( key != 8 && key != 46 )
+      return false;
+
+    console.log("hey!" + index);
+
   }
 
   onSave() {
@@ -109,7 +110,7 @@ export class Service {
   }
 
   onSaveConfirmed() {
-    this.hashtagService.setHashtags()
+    this.hashtagService.setHashtags(this.hashtags)
       .subscribe(res => {
           this.modal.alert()
             .size('sm')
