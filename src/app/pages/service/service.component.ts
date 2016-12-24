@@ -18,7 +18,7 @@ export class Service {
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
   private error: string = "";
   private lastHighlightedTag: string = "";
-  private maxHashtags: int = 5;
+  private maxHashtags: number = 5;
 
   constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
