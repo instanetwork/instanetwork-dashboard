@@ -18,6 +18,7 @@ export class Service {
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
   private error: string = "";
   private lastHighlightedTag: string = "";
+  private maxHashtags: int = 5;
 
   constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
@@ -48,7 +49,7 @@ export class Service {
   }
 
   addHashtag() {
-    if (this.inputInvalid == false && this.inputValue.length !== 0) {
+    if (this.inputInvalid == false && this.inputValue.length !== 0 && this.hashtags.length < this.maxHashtags) {
       for (var _i = 0; _i < this.hashtags.length; _i++) {
         if (this.hashtags[_i].toLowerCase() == this.inputValue.toLowerCase()) {
           this.error = "No Duplicate Hashtags Allowed";

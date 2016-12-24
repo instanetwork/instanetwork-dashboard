@@ -6,7 +6,7 @@
              (keyup.enter)="addHashtag()" [value]="inputValue" (input)="newItemChanged($event)" autofocus>
       <span class="input-group-btn">
         <button class="btn btn-primary" type="button" (click)="inputValue.length !== 0 && addHashtag()"
-                [class.disabled]="inputValue.length === 0">Add</button>
+                [class.disabled]="inputValue.length === 0 || hashtags.length >= maxHashtags">Add</button>
       </span>
     </div>
     <div *ngIf="inputInvalid == true" class="input-group">
@@ -49,10 +49,21 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0"><i class="ion-ios-play"></i>
+    <button type="button" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0" (click)="modal.open()"><i class="ion-ios-play"></i>
       Start Service
     </button>
   </div>
 </div>
+
+<!--<modal #modal>-->
+  <!--<modal-header [show-close]="true">-->
+    <!--<h4 class="modal-title">I'm a modal!</h4>-->
+  <!--</modal-header>-->
+  <!--<modal-body>-->
+    <!--Hello World!-->
+  <!--</modal-body>-->
+  <!--<modal-footer [show-default-buttons]="true"></modal-footer>-->
+<!--</modal>-->
+
 
 
