@@ -17,7 +17,7 @@ export class Service {
   private inputInvalid: boolean = false;
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
   private error: string = "";
-  private highlightedTags: string[] = [];
+  private lastHighlightedTag: string = "";
 
   constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
@@ -77,14 +77,29 @@ export class Service {
     }
   }
 
-  deleteHashtag(event, index) {
+  deleteKeyClicked(event) {
     var key = event.keyCode || event.charCode;
 
     if( key != 8 && key != 46 )
       return false;
 
-    console.log("hey!" + index);
+    this.deleteHashtag();
+  }
 
+  deleteHashtag() {
+    for (var _i = 0; _i < this.hashtags.length; _i++) {
+      if (this.hashtags[_i].toLowerCase() == this.lastHighlightedTag.toLowerCase()) {
+        this.hashtags.splice(_i, 1);
+      }
+    }
+  }
+
+  highlightedTag(tag) {
+    this.lastHighlightedTag = tag;
+  }
+
+  onDelete() {
+    this.deleteHashtag();
   }
 
   onSave() {
