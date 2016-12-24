@@ -25,7 +25,8 @@
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
     <div class="form-group">
       <label for="hashtaglist">Hashtag List</label>
-      <select multiple class="form-control" id="hashtaglist" #t (change)="highlightedTag(t.value)" (keyup)="deleteKeyClicked($event)" >
+      <select multiple class="form-control" id="hashtaglist" #t (change)="highlightedTag(t.value)"
+              (keyup)="deleteKeyClicked($event)">
         <option *ngFor="let tag of hashtags" [value]="tag">{{tag}}</option>
       </select>
     </div>
@@ -34,9 +35,11 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-success btn-with-icon" (click)="onSave()" [class.disabled]="hashtags.length === 0" ><i class="ion-android-checkmark-circle"></i>Save
+    <button type="button" class="btn btn-success btn-with-icon" (click)="onSave()"
+            [class.disabled]="hashtags.length === 0"><i class="ion-android-checkmark-circle"></i>Save
     </button>
-    <button id="selectActions" type="button" class="btn btn-danger btn-with-icon" (click)="onDelete()" [class.disabled]="hashtags.length === 0"><i class="ion-trash-b"></i>Delete
+    <button id="selectActions" type="button" class="btn btn-danger btn-with-icon" (click)="onDelete()"
+            [class.disabled]="hashtags.length === 0"><i class="ion-trash-b"></i>Delete
     </button>
   </div>
 </div>
@@ -49,21 +52,39 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0" (click)="modal.open()"><i class="ion-ios-play"></i>
+    <button type="button" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0"
+            (click)="modal.open()"><i class="ion-ios-play"></i>
       Start Service
     </button>
   </div>
 </div>
 
-<!--<modal #modal>-->
-  <!--<modal-header [show-close]="true">-->
-    <!--<h4 class="modal-title">I'm a modal!</h4>-->
-  <!--</modal-header>-->
-  <!--<modal-body>-->
-    <!--Hello World!-->
-  <!--</modal-body>-->
-  <!--<modal-footer [show-default-buttons]="true"></modal-footer>-->
-<!--</modal>-->
+<modal #modal>
+  <modal-header [show-close]="true">
+    <h3 class="box-title"><i class="fa fa-instagram"></i> Log into Instagram
+      <small>We will not keep your password</small>
+    </h3>
+  </modal-header>
+  <modal-body>
+    <div class="callout-signin">
+      <h4>Your account security is very important to us!</h4>
+      <p>We will not store your password after sign in process. The password is required to establish connection with
+        Instagram.</p>
+    </div>
+    <div class="form-group">
+      <label for="inputUsername3" id="inputUsernameLabelForm">Username</label>
+      <input type="username" class="form-control" id="inputUsername3" placeholder="Username">
+    </div>
+    <div class="form-group red-text">
+      <label for="inputPassword3" id="inputPasswordLabelForm">Password</label>
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-success" (click)="modal.close()">Start</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+  </modal-footer>
+</modal>
 
 
 
