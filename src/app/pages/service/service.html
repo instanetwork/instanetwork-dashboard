@@ -34,9 +34,9 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-success btn-with-icon" (click)="onSave()"><i class="ion-android-checkmark-circle"></i>Save
+    <button type="button" class="btn btn-success btn-with-icon" (click)="onSave()" [class.disabled]="hashtags.length === 0" ><i class="ion-android-checkmark-circle"></i>Save
     </button>
-    <button id="selectActions" type="button" class="btn btn-danger btn-with-icon" (click)="onDelete()"><i class="ion-trash-b"></i>Delete
+    <button id="selectActions" type="button" class="btn btn-danger btn-with-icon" (click)="onDelete()" [class.disabled]="hashtags.length === 0"><i class="ion-trash-b"></i>Delete
     </button>
   </div>
 </div>
@@ -49,7 +49,7 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" class="btn btn-default btn-lg"><i class="ion-ios-play"></i>
+    <button type="button" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0"><i class="ion-ios-play"></i>
       Start Service
     </button>
   </div>
