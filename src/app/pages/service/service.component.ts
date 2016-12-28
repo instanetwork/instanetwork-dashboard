@@ -1,9 +1,10 @@
-import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
+import {Component, ViewContainerRef, ViewEncapsulation, ViewChild} from '@angular/core';
 import {HashtagService} from '../../_services/hashtag.service';
 import {InstagramAuthenticationService} from '../../_services/instagram.authentication.service';
 import {Hashtag} from '../../_models/hashtag';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
   selector: 'service',
@@ -12,18 +13,23 @@ import {Modal} from 'angular2-modal/plugins/bootstrap';
   template: require('./service.html')
 })
 export class Service {
+  @ViewChild('modal')
+  modalLogin: ModalComponent;
+
   public tags: Hashtag[];
   private hashtags: string[] = [];
   private inputValue: string = "";
   private inputInvalid: boolean = false;
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
   private error: string = "";
+  private loginError: string = "";
   private lastHighlightedTag: string = "";
   private maxHashtags: number = 5;
   private instaUsername: string = "";
   private instaPassword: string = "";
+  private loading: boolean = false;
 
-  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService) {
     overlay.defaultViewContainer = vcRef;
   }
   ngOnInit() {
@@ -155,8 +161,33 @@ export class Service {
             .open();
         });
   }
-  onStartClicked() {
-    console.log("hey " + this.instaUsername + " " + this.instaPassword);
+  onCancelledClicked() {
+    console.log("test");
+    this.modalLogin.dismiss();
+  }
 
+  onStartClicked() {
+    if (this.loading) {
+      return;
+    }
+
+    this.loginError = "";
+    this.loading = true;
+    console.log("hey " + this.instaUsername + " " + this.instaPassword);
+    this.instagramAuthenticationService.validateInstagramUser(this.instaUsername, this.instaPassword, '172.102.218.184', '58665', 'instanetwork', 'B1keQVsz')
+      .subscribe(result => {
+        if (result.content) {
+          this.loginError = "";
+        }
+        else {
+          this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
+        }
+          this.loading = false;
+      },
+      (err) => {
+        this.loginError = "Something went wrong, please try again later";
+        this.loading = false;
+      }
+    );
   }
 }

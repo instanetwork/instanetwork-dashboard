@@ -79,10 +79,14 @@
       <label for="inputPassword3" id="inputPasswordLabelForm">Password</label>
       <input type="password" class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="instaPassword">
     </div>
+    <div class="section-block red-text ">
+      <p>{{loginError}}</p>
+    </div>
   </modal-body>
   <modal-footer>
-    <button type="button" class="btn btn-success" (click)="onStartClicked()">Start</button>
-    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+    <img *ngIf="loading == true" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">
+    <button [class.disabled]="loading" type="button" class="btn btn-success" (click)="onStartClicked()">Start</button>
+    <button [class.disabled]="loading" type="button" class="btn btn-danger" data-dismiss="modal" (click)="onCancelledClicked()">Cancel</button>
   </modal-footer>
 </modal>
 
