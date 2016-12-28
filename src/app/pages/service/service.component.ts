@@ -1,5 +1,6 @@
 import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
 import {HashtagService} from '../../_services/hashtag.service';
+import {InstagramAuthenticationService} from '../../_services/instagram.authentication.service';
 import {Hashtag} from '../../_models/hashtag';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
@@ -19,6 +20,8 @@ export class Service {
   private error: string = "";
   private lastHighlightedTag: string = "";
   private maxHashtags: number = 5;
+  private instaUsername: string = "";
+  private instaPassword: string = "";
 
   constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
@@ -151,5 +154,9 @@ export class Service {
             .body('Unable to save hashtags, please try again later.')
             .open();
         });
+  }
+  onStartClicked() {
+    console.log("hey " + this.instaUsername + " " + this.instaPassword);
+
   }
 }
