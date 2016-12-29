@@ -1,7 +1,10 @@
 import {Component, ViewContainerRef, ViewEncapsulation, ViewChild} from '@angular/core';
 import {HashtagService} from '../../_services/hashtag.service';
 import {InstagramAuthenticationService} from '../../_services/instagram.authentication.service';
+import {ProfileService} from '../../_services/profile.service';
+
 import {Hashtag} from '../../_models/hashtag';
+import {Profile} from '../../_models/profile';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -28,19 +31,26 @@ export class Service {
   private instaUsername: string = "";
   private instaPassword: string = "";
   private loading: boolean = false;
+  private profile: Profile[];
+  private activeService: number = 0;
 
-  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService) {
+  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService) {
     overlay.defaultViewContainer = vcRef;
   }
+
   ngOnInit() {
     this.hashtagService.getHashtags()
       .subscribe(tags => {
         this.tags = this.setHashtags(tags);
       });
+    this.profileService.getProfile()
+      .subscribe(profile => {
+        this.profile = profile;
+        this.activeService = this.profile[0].active;
+      });
   }
 
   private setHashtags(_tags: Hashtag[]) {
-
     if (_tags.length == 0) {
       this.hashtags.push("love");
       this.hashtags.push("smile");
@@ -161,8 +171,12 @@ export class Service {
             .open();
         });
   }
+
   onCancelledClicked() {
-    console.log("test");
+    console.log(this.loading);
+    if (this.loading) {
+      return
+    }
     this.modalLogin.dismiss();
   }
 

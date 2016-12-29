@@ -1,0 +1,18 @@
+import {Http, Headers, RequestOptions} from '@angular/http'
+import {Injectable} from '@angular/core'
+import 'rxjs/add/operator/map';
+import {Profile} from '../_models/profile';
+import {Observable} from 'rxjs/Observable';
+
+@Injectable()
+export class ProfileService {
+  private url = 'https://instanetwork.herokuapp.com/profile/';
+  private id = JSON.parse(localStorage.getItem('currentUser')).id;
+  constructor(private http: Http){
+
+  }
+
+  getProfile(): Observable<Profile[]> {
+    return this.http.get(this.url + this.id).map(res => res.json());
+  }
+}
