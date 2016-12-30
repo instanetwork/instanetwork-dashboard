@@ -19,8 +19,11 @@ export class Service {
   @ViewChild('modal')
   modalLogin: ModalComponent;
 
-  @ViewChild('modalLoading')
-  modalLoading: ModalComponent;
+  @ViewChild('modalStoping')
+  modalStoping: ModalComponent;
+
+  @ViewChild('modalStarting')
+  modalStarting: ModalComponent;
 
   public tags: Hashtag[];
   private hashtags: string[] = [];
@@ -195,6 +198,8 @@ export class Service {
       .subscribe(result => {
           if (result.content) {
             this.loginError = "";
+            this.modalLogin.dismiss();
+            this.onStartConfirmed();
           }
           else {
             this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
@@ -233,9 +238,9 @@ export class Service {
   onStopConfirmed() {
     this.profileService.stopService()
       .subscribe(res => {
-          this.modalLoading.open();
+          this.modalStoping.open();
           setTimeout(()=> {
-            this.modalLoading.dismiss();
+            this.modalStoping.dismiss();
             this.profile = res;
             this.activeService = 0;
             this.modal.alert()
@@ -260,6 +265,40 @@ export class Service {
             .titleHtml('Instanetwork Service Stop Failed')
             .okBtnClass('btn btn-danger')
             .body('Unable to stop service, please try again later.')
+            .open();
+        });
+  }
+
+  onStartConfirmed() {
+    this.profileService.startService(this.hashtags)
+      .subscribe(res => {
+          this.modalStarting.open();
+          setTimeout(()=> {
+            this.modalStarting.dismiss();
+            this.profile = res;
+            this.activeService = 1;
+            this.modal.alert()
+              .size('sm')
+              .isBlocking(true)
+              .showClose(true)
+              .keyboard(27)
+              .title('Completed')
+              .titleHtml('Instanetwork Service')
+              .okBtnClass('btn btn-success')
+              .body('Instanetwork Service Start Confirmed')
+              .open();
+          }, 60000);
+        },
+        err => {
+          this.modal.alert()
+            .size('sm')
+            .isBlocking(true)
+            .showClose(true)
+            .keyboard(27)
+            .title('Failed')
+            .titleHtml('Instanetwork Service Start Failed')
+            .okBtnClass('btn btn-danger')
+            .body('Unable to start service, please try again later.')
             .open();
         });
   }

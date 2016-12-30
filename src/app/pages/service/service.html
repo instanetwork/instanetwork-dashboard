@@ -93,9 +93,19 @@
   </modal-footer>
 </modal>
 
-<modal #modalLoading [keyboard]="false" [backdrop]="'static'">
+<modal #modalStoping [keyboard]="false" [backdrop]="'static'">
   <modal-header>
-    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please Wait
+    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please Wait while we stop your service
+      <small>This will take a minute</small>
+    </h3>
+  </modal-header>
+  <modal-body>
+  </modal-body>
+</modal>
+
+<modal #modalStarting [keyboard]="false" [backdrop]="'static'">
+  <modal-header>
+    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please Wait while we start your service
       <small>This will take a minute</small>
     </h3>
   </modal-header>

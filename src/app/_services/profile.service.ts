@@ -22,4 +22,10 @@ export class ProfileService {
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'stop/' + this.id, {}, options).map(res => res.json());
   }
+
+  startService(tags): Observable<Profile[]> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'start/' + this.id, {'tags' : tags}, options).map(res => res.json());
+  }
 }
