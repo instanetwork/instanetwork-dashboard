@@ -17,7 +17,7 @@ export class ProfileService {
     return this.http.get(this.url + this.id).map(res => res.json());
   }
 
-  stopService(): Observable<Profile[]> {
+  stopService(): Observable<boolean> {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'stop/' + this.id, {}, options).map(res => res.json());
