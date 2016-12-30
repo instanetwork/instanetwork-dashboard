@@ -7,7 +7,7 @@ import {Hashtag} from '../../_models/hashtag';
 import {Profile} from '../../_models/profile';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
   selector: 'service',
@@ -19,6 +19,9 @@ export class Service {
   @ViewChild('modal')
   modalLogin: ModalComponent;
 
+  @ViewChild('modalLoading')
+  modalLoading: ModalComponent;
+
   public tags: Hashtag[];
   private hashtags: string[] = [];
   private inputValue: string = "";
@@ -27,7 +30,7 @@ export class Service {
   private error: string = "";
   private loginError: string = "";
   private lastHighlightedTag: string = "";
-  private maxHashtags: number = 5;
+  private maxHashtags: number = 50;
   private instaUsername: string = "";
   private instaPassword: string = "";
   private loading: boolean = false;
@@ -100,7 +103,7 @@ export class Service {
   deleteKeyClicked(event) {
     var key = event.keyCode || event.charCode;
 
-    if( key != 8 && key != 46 )
+    if (key != 8 && key != 46)
       return false;
 
     this.deleteHashtag();
@@ -190,18 +193,74 @@ export class Service {
     console.log("hey " + this.instaUsername + " " + this.instaPassword);
     this.instagramAuthenticationService.validateInstagramUser(this.instaUsername, this.instaPassword, '172.102.218.184', '58665', 'instanetwork', 'B1keQVsz')
       .subscribe(result => {
-        if (result.content) {
-          this.loginError = "";
-        }
-        else {
-          this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
-        }
+          if (result.content) {
+            this.loginError = "";
+          }
+          else {
+            this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
+          }
           this.loading = false;
-      },
-      (err) => {
-        this.loginError = "Something went wrong, please try again later";
-        this.loading = false;
-      }
-    );
+        },
+        (err) => {
+          this.loginError = "Something went wrong, please try again later";
+          this.loading = false;
+        }
+      );
+  }
+
+  onStopService() {
+    var test = this.modal.confirm()
+      .size('lg')
+      .isBlocking(true)
+      .showClose(true)
+      .keyboard(27)
+      .title('Save')
+      .titleHtml('Instanetwork Service')
+      .body('Are you sure you want to stop the Instanetwork service?')
+      .okBtn('Okay')
+      .okBtnClass('btn btn-success')
+      .cancelBtn('Cancel')
+      .cancelBtnClass('btn btn-danger')
+      .open()
+      .then(dialog => dialog.result)
+      .then(result => {
+        this.onStopConfirmed();
+      })
+      .catch((ex) => {
+      });
+  }
+
+  onStopConfirmed() {
+    this.profileService.stopService()
+      .subscribe(res => {
+          this.modalLoading.open();
+          setTimeout(()=> {
+            this.modalLoading.dismiss();
+            this.profile = res;
+            this.activeService = 0;
+            this.modal.alert()
+              .size('sm')
+              .isBlocking(true)
+              .showClose(true)
+              .keyboard(27)
+              .title('Completed')
+              .titleHtml('Instanetwork Service')
+              .okBtnClass('btn btn-success')
+              .body('Instanetwork Service Stop Confirmed')
+              .open();
+          }, 60000);
+        },
+        err => {
+          this.modal.alert()
+            .size('sm')
+            .isBlocking(true)
+            .showClose(true)
+            .keyboard(27)
+            .title('Failed')
+            .titleHtml('Instanetwork Service Stop Failed')
+            .okBtnClass('btn btn-danger')
+            .body('Unable to stop service, please try again later.')
+            .open();
+        });
   }
 }

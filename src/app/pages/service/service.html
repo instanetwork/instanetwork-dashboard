@@ -56,14 +56,14 @@
             (click)="modal.open()"><i class="ion-ios-play"></i>
       Start Service
     </button>
-    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg"><i class="ion-stop"></i>
+    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg" (click)="onStopService()"><i class="ion-stop"></i>
       Stop Service
     </button>
   </div>
 </div>
 
-<modal #modal>
-  <modal-header [show-close]="true">
+<modal #modal [keyboard]="false" [backdrop]="'static'">
+  <modal-header>
     <h3 class="box-title"><i class="fa fa-instagram"></i> Log into Instagram
       <small>We will not keep your password</small>
     </h3>
@@ -93,5 +93,13 @@
   </modal-footer>
 </modal>
 
-
+<modal #modalLoading [keyboard]="false" [backdrop]="'static'">
+  <modal-header>
+    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please Wait
+      <small>This will take a minute</small>
+    </h3>
+  </modal-header>
+  <modal-body>
+  </modal-body>
+</modal>
 
