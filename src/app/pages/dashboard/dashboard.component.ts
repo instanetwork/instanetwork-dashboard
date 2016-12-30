@@ -27,14 +27,19 @@ export class Dashboard {
     this.subscriptionService.getEntries()
       .subscribe(subs => {
         this.subs = this.formatJson(subs);
+
+        if (!this.subs || this.subs.length == 0) {
+          this.subscriptionService.addTrial()
+            .subscribe(subs => {
+              this.subs = this.formatJson(subs);
+            });
+        }
       });
   }
 
   private formatJson(_subs: Subscription[]) {
 
     if (_subs.length == 0) {
-      this.trial = true;
-      this.subExists = false;
       return _subs;
     }
 
@@ -48,11 +53,4 @@ export class Dashboard {
     return _subs;
   }
 
-  private addTrial() {
-    this.trialClicked = true;
-    this.subscriptionService.addTrial()
-      .subscribe(subs => {
-        this.subs = this.formatJson(subs);
-      });
-  }
 }
