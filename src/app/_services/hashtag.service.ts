@@ -16,7 +16,7 @@ export class HashtagService {
     return this.http.get(this.url + this.id).map(res => res.json());
   }
 
-  setHashtags(tags): Observable<Hashtag[]> {
+  setHashtags(tags): Observable<boolean> {
     let headers = new Headers({ 'Content-Type': 'application/json'});
     let options = new RequestOptions({ headers: headers });
     console.log(tags);
