@@ -9,6 +9,9 @@ import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 
+import * as moment from 'moment';
+import 'moment-timezone';
+
 @Component({
   selector: 'service',
   encapsulation: ViewEncapsulation.None,
@@ -51,8 +54,21 @@ export class Service {
       });
     this.profileService.getProfile()
       .subscribe(profile => {
-        this.profile = profile;
-        this.activeService = this.profile[0].active;
+        var lastStartUnix = new Date(profile[0].laststart).valueOf();
+        var lastStopUnix = new Date(profile[0].lastran).valueOf();
+        var currentTimeUnix = new Date().valueOf();
+        var diffStart = currentTimeUnix - lastStartUnix;
+        var diffStop = currentTimeUnix - lastStopUnix;
+        console.log(diffStart);
+        console.log(diffStop);
+        if (diffStart < 60000) {
+          this.onWaiting(this.modalStarting, profile, diffStart, 'Instanetwork Service Start Confirmed');
+        } else if (diffStop < 60000) {
+          this.onWaiting(this.modalStoping, profile, diffStop, 'Instanetwork Service Stop Confirmed');
+        } else {
+          this.profile = profile;
+          this.activeService = this.profile[0].active;
+        }
       });
   }
 
@@ -238,22 +254,7 @@ export class Service {
   onStopConfirmed() {
     this.profileService.stopService()
       .subscribe(res => {
-          this.modalStoping.open();
-          setTimeout(()=> {
-            this.modalStoping.dismiss();
-            this.profile = res;
-            this.activeService = 0;
-            this.modal.alert()
-              .size('sm')
-              .isBlocking(true)
-              .showClose(true)
-              .keyboard(27)
-              .title('Completed')
-              .titleHtml('Instanetwork Service')
-              .okBtnClass('btn btn-success')
-              .body('Instanetwork Service Stop Confirmed')
-              .open();
-          }, 60000);
+          this.onWaiting(this.modalStoping, res,60000, 'Instanetwork Service Stop Confirmed');
         },
         err => {
           this.modal.alert()
@@ -270,24 +271,9 @@ export class Service {
   }
 
   onStartConfirmed() {
-    this.profileService.startService(this.hashtags)
+    this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, '192.168.1.1')
       .subscribe(res => {
-          this.modalStarting.open();
-          setTimeout(()=> {
-            this.modalStarting.dismiss();
-            this.profile = res;
-            this.activeService = 1;
-            this.modal.alert()
-              .size('sm')
-              .isBlocking(true)
-              .showClose(true)
-              .keyboard(27)
-              .title('Completed')
-              .titleHtml('Instanetwork Service')
-              .okBtnClass('btn btn-success')
-              .body('Instanetwork Service Start Confirmed')
-              .open();
-          }, 60000);
+          this.onWaiting(this.modalStarting, res,60000, 'Instanetwork Service Start Confirmed');
         },
         err => {
           this.modal.alert()
@@ -301,5 +287,24 @@ export class Service {
             .body('Unable to start service, please try again later.')
             .open();
         });
+  }
+
+  onWaiting(modal, profile, waitMilli, body){
+    modal.open();
+    setTimeout(()=> {
+      modal.dismiss();
+      this.profile = profile;
+      this.activeService = profile[0].active;
+      this.modal.alert()
+        .size('sm')
+        .isBlocking(true)
+        .showClose(true)
+        .keyboard(27)
+        .title('Completed')
+        .titleHtml('Instanetwork Service')
+        .okBtnClass('btn btn-success')
+        .body(body)
+        .open();
+    }, waitMilli)
   }
 }
