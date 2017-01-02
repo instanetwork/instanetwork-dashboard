@@ -7,6 +7,7 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { AuthGuard } from './_guards/index';
 import { AuthenticationService, UserService } from '../app/_services/index';
 import { LoginComponent } from './login/index';
+import { RegisterComponent } from './register/index';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -40,7 +41,8 @@ type StoreType = {
   bootstrap: [App],
   declarations: [
     App,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

@@ -3,7 +3,7 @@ import { CommonModule }  from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { Login } from './login.component';
+import { Register } from './register.component';
 
 
 @NgModule({
@@ -15,7 +15,7 @@ import { Login } from './login.component';
     routing
   ],
   declarations: [
-    Login
+    Register
   ]
 })
-export default class LoginModule {}
+export default class RegisterModule {}
