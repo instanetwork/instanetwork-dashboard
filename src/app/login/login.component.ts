@@ -1,11 +1,14 @@
-﻿import {Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AuthenticationService} from '../_services/index';
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'login.component.html'
+  selector: 'login',
+  encapsulation: ViewEncapsulation.None,
+  styles: [require('./login.scss')],
+  template: require('./login.html'),
 })
 
 export class LoginComponent implements OnInit {
