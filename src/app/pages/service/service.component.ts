@@ -2,9 +2,11 @@ import {Component, ViewContainerRef, ViewEncapsulation, ViewChild} from '@angula
 import {HashtagService} from '../../_services/hashtag.service';
 import {InstagramAuthenticationService} from '../../_services/instagram.authentication.service';
 import {ProfileService} from '../../_services/profile.service';
+import {IpService} from '../../_services/ip.service';
 
 import {Hashtag} from '../../_models/hashtag';
 import {Profile} from '../../_models/profile';
+import {Ip} from '../../_models/ip';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -39,8 +41,9 @@ export class Service {
   private loading: boolean = false;
   private profile: Profile[];
   private activeService: number = 0;
+  private ipInfo: Ip;
 
-  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService) {
+  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService, private ipService: IpService) {
     overlay.defaultViewContainer = vcRef;
   }
 
@@ -205,23 +208,37 @@ export class Service {
     this.loginError = "";
     this.loading = true;
     console.log("hey " + this.instaUsername + " " + this.instaPassword);
-    this.instagramAuthenticationService.validateInstagramUser(this.instaUsername, this.instaPassword, '172.102.218.184', '58665', 'instanetwork', 'B1keQVsz')
-      .subscribe(result => {
-          if (result.content) {
-            this.loginError = "";
-            this.modalLogin.dismiss();
-            this.onStartConfirmed();
+
+    var ip = this.profile[0].ip;
+
+    if (!ip) {
+      this.ipService.getLowestIp()
+        .subscribe(result => {
+            this.ipInfo = result;
+            console.log("test1 " + this.ipInfo.ip + " " + this.ipInfo.port + " " + this.ipInfo.username + " " + this.ipInfo.password);
+            this.loginStartService();
+          },
+          (err) => {
+            this.loginError = "Something went wrong, please try again later";
+            this.loading = false;
+            return;
           }
-          else {
-            this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
+        );
+    } else {
+      this.ipService.getIpInfo(ip)
+        .subscribe(result => {
+            this.ipInfo = result;
+            console.log("test2 " + this.ipInfo.ip + " " + this.ipInfo.port + " " + this.ipInfo.username + " " + this.ipInfo.password);
+            this.loginStartService();
+          },
+          (err) => {
+            this.loginError = "Something went wrong, please try again later";
+            this.loading = false;
+            return;
           }
-          this.loading = false;
-        },
-        (err) => {
-          this.loginError = "Something went wrong, please try again later";
-          this.loading = false;
-        }
-      );
+        );
+    }
+    console.log("test");
   }
 
   onStopService() {
@@ -257,8 +274,11 @@ export class Service {
   }
 
   onStartConfirmed() {
-    this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, '192.168.1.1')
+    this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, this.ipInfo.ip)
       .subscribe(res => {
+        if(!this.profile[0].ip) {
+          this.incrementIp(this.ipInfo.ip);
+        }
           this.onWaitingComplete(this.modalStarting, res,60000, 'Instanetwork Service Start Confirmed');
         },
         err => {
@@ -287,5 +307,36 @@ export class Service {
       .okBtnClass(btn)
       .body(body)
       .open();
+  }
+
+  incrementIp(ip) {
+    console.log("starting increment");
+    this.ipService.incrementIp(ip)
+      .subscribe(res => {
+          console.log("ip incremented");
+        },
+        err => {
+          console.log("ip increment failed");
+        });
+  }
+
+  loginStartService() {
+    this.instagramAuthenticationService.validateInstagramUser(this.instaUsername, this.instaPassword, this.ipInfo.ip, this.ipInfo.port, this.ipInfo.username, this.ipInfo.password)
+      .subscribe(result => {
+          if (result.content) {
+            this.loginError = "";
+            this.modalLogin.dismiss();
+            this.onStartConfirmed();
+          }
+          else {
+            this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
+          }
+          this.loading = false;
+        },
+        (err) => {
+          this.loginError = "Something went wrong, please try again later";
+          this.loading = false;
+        }
+      );
   }
 }
