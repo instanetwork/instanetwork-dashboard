@@ -16,9 +16,9 @@
       <div class="form-group row" [ngClass]="{'has-error': (!email.valid && f.submitted), 'has-success': (email.valid && email.touched)}">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="email"  name="Email"  placeholder="Email" [(ngModel)]="model.email" #email="ngModel"
+          <input type="email" class="form-control" id="email"  name="email"  placeholder="Email" [(ngModel)]="model.email" #email="ngModel"
                  required/>
-          <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+          <div *ngIf="f.submitted && (!email.valid || invalidEmail)" class="help-block">Email is not valid</div>
         </div>
       </div>
 
