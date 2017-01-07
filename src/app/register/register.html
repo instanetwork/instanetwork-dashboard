@@ -4,19 +4,22 @@
     <a routerLink="/login" class="auth-link">Already have an Instanetwork account? Sign in!</a>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
-      <div class="form-group row" [ngClass]="{'has-error': (!name.valid && name.touched), 'has-success': (name.valid && name.touched)}">
+      <div class="form-group row" [ngClass]="{'has-error': ((!name.valid && name.touched) || usernameExist), 'has-success': (name.valid && name.touched)}">
         <label for="inputName3" class="col-sm-2 control-label">Username</label>
 
         <div class="col-sm-10">
-          <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Username">
+          <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Username" (input)="usernameChanged($event)">
+          <span *ngIf="usernameExist" class="help-block sub-little-text">Username Already Exists</span>
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+      <div class="form-group row" [ngClass]="{'has-error': ((!email.valid && email.touched) || emailExist), 'has-success': (email.valid && email.touched)}">
         <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 
         <div class="col-sm-10">
-          <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
+          <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email" (input)="emailChanged($event)">
+          <span *ngIf="emailExist" class="help-block sub-little-text">Email Already Exists</span>
         </div>
+
       </div>
       <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
         <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
@@ -35,7 +38,7 @@
       </div>
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
-          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">Sign up</button>
+          <button [disabled]="!form.valid || usernameExist || emailExist" type="submit" class="btn btn-default btn-auth">Sign up</button>
         </div>
       </div>
     </form>

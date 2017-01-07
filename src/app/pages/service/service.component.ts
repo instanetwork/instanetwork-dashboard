@@ -54,6 +54,8 @@ export class Service {
       });
     this.profileService.getProfile()
       .subscribe(profile => {
+        if (profile.length == 0)
+          return;
         var lastStartUnix = new Date(profile[0].laststart).valueOf();
         var lastStopUnix = new Date(profile[0].lastran).valueOf();
         var currentTimeUnix = new Date().valueOf();
