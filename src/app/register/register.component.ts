@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
+import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import {EmailValidator, EqualPasswordsValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
+import {Router} from '@angular/router';
 
 @Component({
-  moduleId: module.id,
   selector: 'register',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./register.scss')],
@@ -12,14 +12,31 @@ import {AuthenticationService} from '../_services/index';
 })
 export class RegisterComponent {
 
-  model: any = {};
-  loading = false;
-  error = '';
-  passwords = true;
-  invalidEmail = false;
+  public form:FormGroup;
+  public name:AbstractControl;
+  public email:AbstractControl;
+  public password:AbstractControl;
+  public repeatPassword:AbstractControl;
+  public passwords:FormGroup;
 
-  constructor(private router: Router,
-              private authenticationService: AuthenticationService) {
+  public submitted:boolean = false;
+
+  constructor(private router: Router, private fb:FormBuilder, private authenticationService: AuthenticationService) {
+
+    this.form = fb.group({
+      'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'email': ['', Validators.compose([Validators.required, EmailValidator.validate])],
+      'passwords': fb.group({
+        'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+        'repeatPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+      }, {validator: EqualPasswordsValidator.validate('password', 'repeatPassword')})
+    });
+
+    this.name = this.form.controls['name'];
+    this.email = this.form.controls['email'];
+    this.passwords = <FormGroup> this.form.controls['passwords'];
+    this.password = this.passwords.controls['password'];
+    this.repeatPassword = this.passwords.controls['repeatPassword'];
   }
 
   ngOnInit() {
@@ -27,16 +44,11 @@ export class RegisterComponent {
     this.authenticationService.logout();
   }
 
-  register() {
-
-    // Validate Passwords are same
-    this.passwords = this.model.password != this.model.repeatPassword
-    this.invalidEmail = this.isInvalidMailFormat(this.model.email);
-  }
-
-  isInvalidMailFormat(email) {
-    let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-
-    return (email != "" && (email.length <= 5 || !EMAIL_REGEXP.test(email)));
+  public onSubmit(values:Object):void {
+    this.submitted = true;
+    if (this.form.valid) {
+      // your code goes here
+       console.log(values);
+    }
   }
 }
