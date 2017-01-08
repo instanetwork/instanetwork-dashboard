@@ -86,10 +86,4 @@ export class AuthenticationService {
   checkUsername(username): Observable<boolean> {
     return this.http.get(this.url + 'register/username/' + username).map(res => res.json());
   }
-
-  changePassword(password): Observable<boolean> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'change_password/', {'password': password}, options).map(res => res.json());
-  }
 }
