@@ -18,7 +18,7 @@
         <div class="col-sm-10">
           <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4"
                  placeholder="Repeat">
-          <span *ngIf="(password.touched || repeatPassword.touched)"
+          <span *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)"
                 class="help-block sub-little-text">Passwords don't match.</span>
         </div>
       </div>
@@ -30,7 +30,7 @@
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
           <button
-            [disabled]="!form.valid"
+            [disabled]="!form.valid || !captcha.getResponse()"
             type="submit"
             class="btn btn-default btn-auth">Change Password
           </button>
