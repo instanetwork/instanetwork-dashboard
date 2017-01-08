@@ -28,7 +28,8 @@ export class RegisterComponent {
   public submitted: boolean = false;
   public usernamePatternMismatch: boolean = false;
   private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_-]');
-  private error = '';
+  private error: string = '';
+  private loading: boolean = false;
 
   constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService) {
 
@@ -59,6 +60,7 @@ export class RegisterComponent {
     this.submitted = true;
     this.error = "";
     if (this.form.valid && !this.usernamePatternMismatch && this.captcha.getResponse()) {
+      this.loading = true;
       this.authenticationService.checkUsername(values['name'])
         .subscribe(result => {
             if (result === false) {
@@ -67,19 +69,21 @@ export class RegisterComponent {
                     if (result === false) {
                       this.registerUser(values);
                     } else {
+                      this.loading = false;
                       this.emailExist = true;
                     }
                   },
                   (err) => {
-                    this.error = "Unable to register, please try again later.";
+                    this.errorOnStart();
                   }
                 );
             } else {
+              this.loading = false;
               this.usernameExist = true;
             }
           },
           (err) => {
-            this.error = "Unable to register, please try again later.";
+            this.errorOnStart();
           }
         );
     }
@@ -89,17 +93,20 @@ export class RegisterComponent {
     console.log(values);
     this.authenticationService.register(values['name'], values['email'], values['passwords']['password']).subscribe(result => {
         if (result === true) {
+          this.loading = false;
           this.router.navigate(['/pages/dashboard']);
         } else {
+          this.errorOnStart();
         }
       },
       (err) => {
-        this.error = "Unable to register, please try again later.";
+        this.errorOnStart();
       }
     );
   }
 
   usernameChanged(event: KeyboardEvent) {
+    this.error = "Unable to register, please try again later.";
     this.usernameExist = false;
     const target = <HTMLInputElement> event.target;
     this.usernamePatternMismatch = this.allowedUsernameCharacters.test(target.value);
@@ -107,5 +114,10 @@ export class RegisterComponent {
 
   emailChanged(event: KeyboardEvent) {
     this.emailExist = false;
+  }
+
+  errorOnStart() {
+    this.loading = false;
+    this.error = "Unable to register, please try again later.";
   }
 }
