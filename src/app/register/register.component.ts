@@ -1,7 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmailValidator, EqualPasswordsValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
+import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
+
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,7 +12,10 @@ import {Router} from '@angular/router';
   styles: [require('./register.scss')],
   template: require('./register.html'),
 })
+
 export class RegisterComponent {
+
+  @ViewChild(ReCaptchaComponent) captcha:ReCaptchaComponent;
 
   public form: FormGroup;
   public name: AbstractControl;

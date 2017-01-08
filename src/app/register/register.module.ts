@@ -4,8 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgaModule} from '../theme/nga.module';
 import {BrowserModule}  from '@angular/platform-browser';
 import {AuthenticationService} from '../_services/index';
+import {ReCaptchaModule} from 'angular2-recaptcha';
+import {routing}       from './register.routing';
 
-import {Register} from './register.component';
+import {RegisterComponent} from './register.component';
 
 
 @NgModule({
@@ -16,13 +18,15 @@ import {Register} from './register.component';
     NgaModule,
     BrowserModule,
     routing,
+    ReCaptchaModule,
   ],
   declarations: [
-    Register
+    RegisterComponent,
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
   ]
 })
-export default class RegisterModule {
+
+export class RegisterModule {
 }

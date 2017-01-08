@@ -21,6 +21,7 @@ import { AppState, InteralStateType } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
+import { RegisterModule } from './register/register.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -42,7 +43,6 @@ type StoreType = {
   declarations: [
     App,
     LoginComponent,
-    RegisterComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -52,7 +52,8 @@ type StoreType = {
     ReactiveFormsModule,
     NgaModule,
     PagesModule,
-    routing
+    RegisterModule,
+    routing,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     AuthGuard,

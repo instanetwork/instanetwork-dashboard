@@ -4,42 +4,58 @@
     <a routerLink="/login" class="auth-link">Already have an Instanetwork account? Sign in!</a>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
-      <div class="form-group row" [ngClass]="{'has-error': ((!name.valid && name.touched) || usernameExist), 'has-success': (name.valid && name.touched)}">
+      <div class="form-group row"
+           [ngClass]="{'has-error': ((!name.valid && name.touched) || usernameExist), 'has-success': (name.valid && name.touched)}">
         <label for="inputName3" class="col-sm-2 control-label">Username</label>
 
         <div class="col-sm-10">
-          <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Username" (input)="usernameChanged($event)">
+          <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Username"
+                 (input)="usernameChanged($event)">
           <span *ngIf="usernameExist" class="help-block sub-little-text">Username Already Exists</span>
           <span *ngIf="usernamePatternMismatch" class="help-block sub-little-text">Username can only contain letters, numbers, dashes and underscores</span>
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-error': ((!email.valid && email.touched) || emailExist), 'has-success': (email.valid && email.touched)}">
+      <div class="form-group row"
+           [ngClass]="{'has-error': ((!email.valid && email.touched) || emailExist), 'has-success': (email.valid && email.touched)}">
         <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 
         <div class="col-sm-10">
-          <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email" (input)="emailChanged($event)">
+          <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email"
+                 (input)="emailChanged($event)">
           <span *ngIf="emailExist" class="help-block sub-little-text">Email Already Exists</span>
         </div>
 
       </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+      <div class="form-group row"
+           [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
         <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 
         <div class="col-sm-10">
-          <input [formControl]="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input [formControl]="password" type="password" class="form-control" id="inputPassword3"
+                 placeholder="Password">
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
+      <div class="form-group row"
+           [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
         <label for="inputPassword4" class="col-sm-2 control-label">Repeat</label>
 
         <div class="col-sm-10">
-          <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4" placeholder="Repeat">
-          <span *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)" class="help-block sub-little-text">Passwords don't match.</span>
+          <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4"
+                 placeholder="Repeat">
+          <span *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)"
+                class="help-block sub-little-text">Passwords don't match.</span>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
-          <button [disabled]="!form.valid || usernameExist || emailExist || usernamePatternMismatch" type="submit" class="btn btn-default btn-auth">Sign up</button>
+          <re-captcha site_key="6LeJ-hAUAAAAAHOEdoNLYvgQA9yziMlz70BWf_Kz"></re-captcha>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button [disabled]="!form.valid || usernameExist || emailExist || usernamePatternMismatch" type="submit"
+                  class="btn btn-default btn-auth">Sign up
+          </button>
         </div>
       </div>
     </form>
