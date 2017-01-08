@@ -10,6 +10,7 @@
         <div class="col-sm-10">
           <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Username" (input)="usernameChanged($event)">
           <span *ngIf="usernameExist" class="help-block sub-little-text">Username Already Exists</span>
+          <span *ngIf="usernamePatternMismatch" class="help-block sub-little-text">Username can only contain letters, numbers, dashes and underscores</span>
         </div>
       </div>
       <div class="form-group row" [ngClass]="{'has-error': ((!email.valid && email.touched) || emailExist), 'has-success': (email.valid && email.touched)}">
@@ -38,7 +39,7 @@
       </div>
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
-          <button [disabled]="!form.valid || usernameExist || emailExist" type="submit" class="btn btn-default btn-auth">Sign up</button>
+          <button [disabled]="!form.valid || usernameExist || emailExist || usernamePatternMismatch" type="submit" class="btn btn-default btn-auth">Sign up</button>
         </div>
       </div>
     </form>

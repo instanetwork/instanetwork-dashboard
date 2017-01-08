@@ -21,11 +21,13 @@ export class RegisterComponent {
   public emailExist: boolean = false;
   public usernameExist: boolean = false;
   public submitted: boolean = false;
+  public usernamePatternMismatch: boolean = false;
+  private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_-]');
 
   constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService) {
 
     this.form = fb.group({
-      'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'name': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])],
       'email': ['', Validators.compose([Validators.required, EmailValidator.validate])],
       'passwords': fb.group({
         'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -49,7 +51,7 @@ export class RegisterComponent {
     this.emailExist = false;
     this.usernameExist = false;
     this.submitted = true;
-    if (this.form.valid) {
+    if (this.form.valid && !this.usernamePatternMismatch) {
       this.authenticationService.checkUsername(values['name'])
         .subscribe(result => {
             if (result === false) {
@@ -91,6 +93,10 @@ export class RegisterComponent {
 
   usernameChanged(event: KeyboardEvent) {
     this.usernameExist = false;
+    const target = <HTMLInputElement> event.target;
+    console.log(target.value);
+    this.usernamePatternMismatch = this.allowedUsernameCharacters.test(target.value);
+    console.log(this.usernamePatternMismatch);
   }
 
   emailChanged(event: KeyboardEvent) {
