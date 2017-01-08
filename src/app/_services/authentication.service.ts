@@ -15,8 +15,8 @@ export class AuthenticationService {
   }
 
   login(username, password): Observable<boolean> {
-    let headers = new Headers({ 'Content-Type': 'application/json'});
-    let options = new RequestOptions({ headers: headers });
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'authenticate', JSON.stringify({
         username: username,
         password: password
@@ -50,8 +50,8 @@ export class AuthenticationService {
   }
 
   register(username, email, password): Observable<boolean> {
-    let headers = new Headers({ 'Content-Type': 'application/json'});
-    let options = new RequestOptions({ headers: headers });
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'register', JSON.stringify({
         username: username,
         email: email,
@@ -80,10 +80,16 @@ export class AuthenticationService {
   }
 
   checkEmail(email): Observable<boolean> {
-      return this.http.get(this.url + 'register/email/' + email).map(res => res.json());
+    return this.http.get(this.url + 'register/email/' + email).map(res => res.json());
   }
 
   checkUsername(username): Observable<boolean> {
     return this.http.get(this.url + 'register/username/' + username).map(res => res.json());
+  }
+
+  changePassword(password): Observable<boolean> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'change_password/', {'password': password}, options).map(res => res.json());
   }
 }

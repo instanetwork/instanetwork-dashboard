@@ -21,7 +21,7 @@ export class Change {
   private loading: boolean = false;
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder, private authenticationService: AuthenticationService) {
 
     this.form = fb.group({
       'passwords': fb.group({
@@ -41,6 +41,20 @@ export class Change {
     this.submitted = true;
     if (this.form.valid) {
        console.log(values);
+      this.authenticationService.changePassword(values['passwords']['password']).subscribe(result => {
+          if (result === true) {
+            this.loading = false;
+            // this.router.navigate(['/pages/dashboard']);
+          } else {
+            this.error = '';
+            this.loading = false;
+          }
+        },
+        (err) => {
+          this.error = '';
+          this.loading = false;
+        }
+      );
     }
   }
 }
