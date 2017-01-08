@@ -106,7 +106,6 @@ export class RegisterComponent {
   }
 
   usernameChanged(event: KeyboardEvent) {
-    this.error = "Unable to register, please try again later.";
     this.usernameExist = false;
     const target = <HTMLInputElement> event.target;
     this.usernamePatternMismatch = this.allowedUsernameCharacters.test(target.value);

@@ -38,6 +38,11 @@ export const PAGES_MENU = [
           }
         }
       },
+      {
+        path: 'change',
+        data: {
+        }
+      },
     ]
   }
 ];
