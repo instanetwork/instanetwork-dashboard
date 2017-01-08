@@ -56,7 +56,7 @@ export class RegisterComponent {
     this.emailExist = false;
     this.usernameExist = false;
     this.submitted = true;
-    if (this.form.valid && !this.usernamePatternMismatch) {
+    if (this.form.valid && !this.usernamePatternMismatch && this.captcha.getResponse()) {
       this.authenticationService.checkUsername(values['name'])
         .subscribe(result => {
             if (result === false) {
@@ -99,9 +99,7 @@ export class RegisterComponent {
   usernameChanged(event: KeyboardEvent) {
     this.usernameExist = false;
     const target = <HTMLInputElement> event.target;
-    console.log(target.value);
     this.usernamePatternMismatch = this.allowedUsernameCharacters.test(target.value);
-    console.log(this.usernamePatternMismatch);
   }
 
   emailChanged(event: KeyboardEvent) {
