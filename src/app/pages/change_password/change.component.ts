@@ -1,6 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import {AuthenticationService} from '../change_password/index';
+import {AuthenticationService} from '../../_services/index';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
 
 @Component({
