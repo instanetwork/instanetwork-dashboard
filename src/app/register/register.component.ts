@@ -28,6 +28,7 @@ export class RegisterComponent {
   public submitted: boolean = false;
   public usernamePatternMismatch: boolean = false;
   private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_-]');
+  private error = '';
 
   constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService) {
 
@@ -56,6 +57,7 @@ export class RegisterComponent {
     this.emailExist = false;
     this.usernameExist = false;
     this.submitted = true;
+    this.error = "";
     if (this.form.valid && !this.usernamePatternMismatch && this.captcha.getResponse()) {
       this.authenticationService.checkUsername(values['name'])
         .subscribe(result => {
@@ -69,7 +71,7 @@ export class RegisterComponent {
                     }
                   },
                   (err) => {
-                    // this.modalAttributeError('Unable to complete request, please try again later')
+                    this.error = "Unable to register, please try again later.";
                   }
                 );
             } else {
@@ -77,7 +79,7 @@ export class RegisterComponent {
             }
           },
           (err) => {
-            // this.modalAttributeError('Unable to complete request, please try again later')
+            this.error = "Unable to register, please try again later.";
           }
         );
     }
@@ -92,6 +94,7 @@ export class RegisterComponent {
         }
       },
       (err) => {
+        this.error = "Unable to register, please try again later.";
       }
     );
   }
