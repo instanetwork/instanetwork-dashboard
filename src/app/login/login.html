@@ -26,7 +26,7 @@
           <button [disabled]="loading" class="btn btn-default btn-auth">Sign In</button>
           <img *ngIf="loading" height="20" width="20"
                src="../../assets/img/spinner-transparent.gif"/>
-          <a routerLink="/login" class="forgot-pass">Forgot password?</a>
+          <a routerLink="/reset" class="forgot-pass">Forgot password?</a>
         </div>
       </div>
       <div *ngIf="error" class="alert alert-danger">{{error}}</div>

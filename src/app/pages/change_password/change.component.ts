@@ -42,7 +42,7 @@ export class Change {
     this.error = '';
     this.loading = true;
     this.submitted = true;
-    if (this.form.valid) {
+    if (this.form.valid && this.captcha.getResponse()) {
       console.log(values);
       this.userService.changePassword(values['passwords']['password']).subscribe(result => {
           if (result === true) {

@@ -22,6 +22,7 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { RegisterModule } from './register/register.module';
+import { ResetModule } from './reset/reset.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -53,6 +54,7 @@ type StoreType = {
     NgaModule,
     PagesModule,
     RegisterModule,
+    ResetModule,
     routing,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
