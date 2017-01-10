@@ -5,8 +5,11 @@ import {NgaModule} from '../theme/nga.module';
 import {BrowserModule}  from '@angular/platform-browser';
 import {AuthenticationService} from '../_services/index';
 import {EmailService} from '../_services/email.service';
+import {UserService} from '../_services/user.service';
 import {ReCaptchaModule} from 'angular2-recaptcha';
 import {routing}       from './reset.routing';
+import {ModalModule} from 'angular2-modal';
+import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
 
 import {ResetComponent} from './reset.component';
 
@@ -20,6 +23,8 @@ import {ResetComponent} from './reset.component';
     BrowserModule,
     routing,
     ReCaptchaModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
   ],
   declarations: [
     ResetComponent,
@@ -27,6 +32,10 @@ import {ResetComponent} from './reset.component';
   providers: [
     AuthenticationService,
     EmailService,
+    UserService,
+  ],
+  bootstrap: [
+    ResetComponent
   ]
 })
 

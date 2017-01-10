@@ -10,7 +10,6 @@ import {User} from '../_models/user';
 export class UserService {
   private token: string;
   private url = 'https://instanetwork.herokuapp.com/';
-  private id = JSON.parse(localStorage.getItem('currentUser')).id;
 
   constructor(private http: Http,
               private authenticationService: AuthenticationService) {
@@ -27,9 +26,10 @@ export class UserService {
   }
 
   changePassword(password): Observable<boolean> {
+    var id = JSON.parse(localStorage.getItem('currentUser')).id;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'password/change_password/' + this.id, {'password': password}, options).map(res => res.json());
+    return this.http.post(this.url + 'password/change_password/' + id, {'password': password}, options).map(res => res.json());
   }
 
   resetPassword(email) {

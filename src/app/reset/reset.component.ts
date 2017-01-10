@@ -1,9 +1,12 @@
-import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ViewChild, ViewContainerRef, ViewEncapsulation} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import {EmailValidator, EqualPasswordsValidator} from '../theme/validators';
+import {EmailValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
+import {UserService} from '../_services/user.service';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
 import {EmailService} from '../_services/email.service';
+import {Overlay} from 'angular2-modal';
+import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {Router} from '@angular/router';
 
 @Component({
@@ -24,7 +27,8 @@ export class ResetComponent {
   private error: string = '';
   private loading: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private emailService: EmailService) {
+  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private userService: UserService, private emailService: EmailService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+    overlay.defaultViewContainer = vcRef;
 
     this.form = fb.group({
       'email': ['', Validators.compose([Validators.required, EmailValidator.validate])]
@@ -42,8 +46,8 @@ export class ResetComponent {
       this.authenticationService.checkEmail(values['email'])
         .subscribe(result => {
             if (result === true) {
-              console.log("continue");
-              this.loading = false;
+              console.log("hey");
+              this.resetPassword(values['email']);
             } else {
               this.loading = false;
               this.emailExist = false;
@@ -51,7 +55,7 @@ export class ResetComponent {
           },
           (err) => {
             this.loading = false;
-            this.error = "Unable to register, please try again later.";
+            this.error = "Unable to reset password, please try again later.";
           }
         );
     }
@@ -59,5 +63,51 @@ export class ResetComponent {
 
   emailChanged(event: KeyboardEvent) {
     this.emailExist = true;
+  }
+
+  resetPassword(email) {
+    this.userService.resetPassword(email).subscribe(result => {
+      console.log(result + " " + result.email + " " + result.password);
+        if (typeof result.email !== 'undefined' && typeof result.password !== 'undefined' && result.email === true) {
+          this.sendResetEmail(email, result.password);
+          this.alertUserReset();
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.emailExist = false;
+        }
+      },
+      (err) => {
+        this.loading = false;
+        this.error = "Unable to reset password, please try again later.";
+      }
+    );
+  }
+
+  sendResetEmail(email, password) {
+    this.emailService.resetPasswordEmail(email, password).subscribe(result => {
+      },
+      (err) => {
+      }
+    );
+  }
+
+  alertUserReset() {
+    this.modal.alert()
+      .size('sm')
+      .isBlocking(true)
+      .showClose(true)
+      .keyboard(27)
+      .title('Completed')
+      .titleHtml('Instanetwork Service')
+      .okBtnClass('btn btn-success')
+      .body('Password Successfully Changed')
+      .open()
+      .then(dialog => dialog.result)
+      .then(result => {
+        this.router.navigate(['/login']);
+      })
+      .catch((ex) => {
+      });
   }
 }

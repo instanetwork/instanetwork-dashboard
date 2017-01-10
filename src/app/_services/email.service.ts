@@ -14,7 +14,7 @@ export class EmailService {
 
   }
 
-  registerEmail(email) {
+  registerEmail(email): Observable<boolean> {
     let headers = new Headers({"Authorization": "Basic " + btoa("api:key-a7055f973b8bd092af3f869af2f2999d")});
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.api_url, {
@@ -25,14 +25,14 @@ export class EmailService {
     }, options).map(res => res.json());
   }
 
-  resetPasswordEmail(email) {
+  resetPasswordEmail(email, password) {
     let headers = new Headers({"Authorization": "Basic " + btoa("api:key-a7055f973b8bd092af3f869af2f2999d")});
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.api_url, {
       from: this.from,
       to: email,
       subject: "Instanetwork Password Reset",
-      html: ``
+      text: password
     }, options).map(res => res.json());
   }
 }
