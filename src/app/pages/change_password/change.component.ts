@@ -46,6 +46,7 @@ export class Change {
       console.log(values);
       this.userService.changePassword(values['passwords']['password']).subscribe(result => {
           if (result === true) {
+            this.captcha.reset();
             this.loading = false;
             this.modal.alert()
               .size('sm')
@@ -64,11 +65,13 @@ export class Change {
               .catch((ex) => {
               });
           } else {
+            this.captcha.reset();
             this.error = 'Unable to change password, please try again later';
             this.loading = false;
           }
         },
         (err) => {
+          this.captcha.reset();
           this.error = 'Unable to change password, please try again later';
           this.loading = false;
         }

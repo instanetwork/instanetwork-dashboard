@@ -50,11 +50,13 @@ export class ResetComponent {
               this.resetPassword(values['email']);
             } else {
               this.loading = false;
+              this.captcha.reset();
               this.emailExist = false;
             }
           },
           (err) => {
             this.loading = false;
+            this.captcha.reset();
             this.error = "Unable to reset password, please try again later.";
           }
         );
@@ -72,12 +74,15 @@ export class ResetComponent {
           this.sendResetEmail(email, result.password);
           this.alertUserReset();
           this.loading = false;
+          this.captcha.reset();
         } else {
           this.loading = false;
           this.emailExist = false;
+          this.captcha.reset();
         }
       },
       (err) => {
+        this.captcha.reset();
         this.loading = false;
         this.error = "Unable to reset password, please try again later.";
       }
