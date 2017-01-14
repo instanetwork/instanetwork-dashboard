@@ -60,7 +60,7 @@ export class Change {
               .open()
               .then(dialog => dialog.result)
               .then(result => {
-                this.router.navigate(['/pages/dashboard']);
+                this.router.navigate(['/pages/home']);
               })
               .catch((ex) => {
               });

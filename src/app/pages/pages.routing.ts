@@ -9,7 +9,7 @@ const routes: Routes = [
     component: Pages,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', loadChildren: () => System.import('./dashboard/dashboard.module') , canActivate: [AuthGuard]},
+      { path: 'home', loadChildren: () => System.import('./home/home.module.ts') , canActivate: [AuthGuard]},
       { path: 'subscription', loadChildren: () => System.import('./subscription/subscription.module'), canActivate: [AuthGuard] },
       { path: 'service', loadChildren: () => System.import('./service/service.module'), canActivate: [AuthGuard] },
       { path: 'change', loadChildren: () => System.import('./change_password/change.module'), canActivate: [AuthGuard] },

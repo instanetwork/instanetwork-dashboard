@@ -100,7 +100,7 @@ export class RegisterComponent {
               this.errorOnStart();
             }
           );
-          this.router.navigate(['/pages/dashboard']);
+          this.router.navigate(['/pages/home']);
         } else {
           this.errorOnStart();
         }

@@ -4,12 +4,12 @@ import 'rxjs/Rx';
 import {Subscription} from '../../_models/subscription';
 
 @Component({
-  selector: 'dashboard',
+  selector: 'home',
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./dashboard.scss')],
-  template: require('./dashboard.html'),
+  styles: [require('./home.scss')],
+  template: require('./home.html'),
 })
-export class Dashboard {
+export class Home {
   public subs: Subscription[];
   private currDate: number;
   private trial: boolean;
