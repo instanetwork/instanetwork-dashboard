@@ -12,12 +12,12 @@ import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
-  selector: 'service',
+  selector: 'Dashboard',
   encapsulation: ViewEncapsulation.None,
-  styles: [require('./service.scss')],
-  template: require('./service.html')
+  styles: [require('./dashboard.scss')],
+  template: require('./dashboard.html')
 })
-export class Service {
+export class Dashboard {
   @ViewChild('modal')
   modalLogin: ModalComponent;
 
@@ -152,7 +152,7 @@ export class Service {
       .keyboard(27)
       .title('Save')
       .titleHtml('Are you sure you want to save hashtags?')
-      .body('These hashtags will take affect during shutdown time between 12-1 am/pm Est. You can save your hashtags and use them immediately by starting or restarting the service.')
+      .body('These hashtags will take affect during shutdown time between 12-1 am/pm Est. You can save your hashtags and use them immediately by starting or restarting the dashboard.')
       .okBtn('Save')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
@@ -251,7 +251,7 @@ export class Service {
       .keyboard(27)
       .title('Save')
       .titleHtml('Instanetwork Service')
-      .body('Are you sure you want to stop the Instanetwork service?')
+      .body('Are you sure you want to stop the Instanetwork dashboard?')
       .okBtn('Okay')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
@@ -271,7 +271,7 @@ export class Service {
           this.onWaitingComplete(this.modalStoping, res,60000, 'Instanetwork Service Stop Confirmed');
         },
         err => {
-          this.onWaitingCompleteModal('btn btn-danger', 'Unable to stop service, please try again later.');
+          this.onWaitingCompleteModal('btn btn-danger', 'Unable to stop dashboard, please try again later.');
         });
   }
 
@@ -284,7 +284,7 @@ export class Service {
           this.onWaitingComplete(this.modalStarting, res,60000, 'Instanetwork Service Start Confirmed');
         },
         err => {
-          this.onWaitingCompleteModal('btn btn-danger', 'Unable to start service, please try again later.');
+          this.onWaitingCompleteModal('btn btn-danger', 'Unable to start dashboard, please try again later.');
         });
   }
 

@@ -13,8 +13,8 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
-import { Service } from './service.component.ts';
-import { routing }       from './service.routing.ts';
+import { Dashboard } from './dashboard.component.ts';
+import { routing }       from './dashboard.routing.ts';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { routing }       from './service.routing.ts';
     Ng2Bs3ModalModule
   ],
   declarations: [
-    Service
+    Dashboard
   ],
   providers: [
     HashtagService,
@@ -37,7 +37,7 @@ import { routing }       from './service.routing.ts';
     IpService
   ],
   bootstrap: [
-    Service
+    Dashboard
   ]
 })
-export default class ServiceModule {}
+export default class DashboardModule {}

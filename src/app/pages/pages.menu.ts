@@ -27,7 +27,7 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: 'service',
+        path: 'dashboard',
         data: {
           menu: {
             title: 'Dashboard',
