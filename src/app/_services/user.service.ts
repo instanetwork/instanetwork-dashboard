@@ -11,6 +11,7 @@ export class UserService {
   private token: string;
   private url = 'https://instanetwork.herokuapp.com/';
   private tokenUrl = '?token=';
+
   constructor(private http: Http,
               private authenticationService: AuthenticationService) {
   }
