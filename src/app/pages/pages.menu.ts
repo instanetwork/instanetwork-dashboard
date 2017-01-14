@@ -6,7 +6,7 @@ export const PAGES_MENU = [
         path: 'dashboard',
         data: {
           menu: {
-            title: 'Dashboard',
+            title: 'Home',
             icon: 'ion-android-home',
             selected: false,
             expanded: false,
@@ -30,7 +30,7 @@ export const PAGES_MENU = [
         path: 'service',
         data: {
           menu: {
-            title: 'Instanetwork',
+            title: 'Dashboard',
             icon: 'ion-gear-b',
             selected: false,
             expanded: false,
