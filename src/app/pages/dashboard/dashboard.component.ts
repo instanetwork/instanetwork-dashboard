@@ -62,9 +62,9 @@ export class Dashboard {
         var diffStart = currentTimeUnix - lastStartUnix;
         var diffStop = currentTimeUnix - lastStopUnix;
         if (diffStart < 60000) {
-          this.onWaitingComplete(this.modalStarting, profile, diffStart, 'Instanetwork Service Start Confirmed');
+          this.onWaitingComplete(this.modalStarting, profile, diffStart, 'Instanetwork Service Started');
         } else if (diffStop < 60000) {
-          this.onWaitingComplete(this.modalStoping, profile, diffStop, 'Instanetwork Service Stop Confirmed');
+          this.onWaitingComplete(this.modalStoping, profile, diffStop, 'Instanetwork Service Stopped');
         } else {
           this.profile = profile;
           this.activeService = this.profile[0].active;
@@ -195,7 +195,6 @@ export class Dashboard {
   }
 
   onCancelledClicked() {
-    console.log(this.loading);
     if (this.loading) {
       return
     }
@@ -209,7 +208,6 @@ export class Dashboard {
 
     this.loginError = "";
     this.loading = true;
-    console.log("hey " + this.instaUsername + " " + this.instaPassword);
 
     var ip = this.profile[0].ip;
 
@@ -217,7 +215,6 @@ export class Dashboard {
       this.ipService.getLowestIp()
         .subscribe(result => {
             this.ipInfo = result;
-            console.log("test1 " + this.ipInfo.ip + " " + this.ipInfo.port + " " + this.ipInfo.username + " " + this.ipInfo.password);
             this.loginStartService();
           },
           (err) => {
@@ -230,7 +227,6 @@ export class Dashboard {
       this.ipService.getIpInfo(ip)
         .subscribe(result => {
             this.ipInfo = result;
-            console.log("test2 " + this.ipInfo.ip + " " + this.ipInfo.port + " " + this.ipInfo.username + " " + this.ipInfo.password);
             this.loginStartService();
           },
           (err) => {
@@ -240,7 +236,6 @@ export class Dashboard {
           }
         );
     }
-    console.log("test");
   }
 
   onStopService() {
@@ -252,7 +247,7 @@ export class Dashboard {
       .title('Save')
       .titleHtml('Instanetwork Service')
       .body('Are you sure you want to stop the Instanetwork dashboard?')
-      .okBtn('Okay')
+      .okBtn('Yes')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
       .cancelBtnClass('btn btn-danger')
@@ -268,7 +263,7 @@ export class Dashboard {
   onStopConfirmed() {
     this.profileService.stopService()
       .subscribe(res => {
-          this.onWaitingComplete(this.modalStoping, res,60000, 'Instanetwork Service Stop Confirmed');
+          this.onWaitingComplete(this.modalStoping, res, 60000, 'Instanetwork Service Stop Confirmed');
         },
         err => {
           this.onWaitingCompleteModal('btn btn-danger', 'Unable to stop dashboard, please try again later.');
@@ -278,17 +273,17 @@ export class Dashboard {
   onStartConfirmed() {
     this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, this.ipInfo.ip)
       .subscribe(res => {
-        if(!this.profile[0].ip) {
-          this.incrementIp(this.ipInfo.ip);
-        }
-          this.onWaitingComplete(this.modalStarting, res,60000, 'Instanetwork Service Start Confirmed');
+          if (!this.profile[0].ip) {
+            this.incrementIp(this.ipInfo.ip);
+          }
+          this.onWaitingComplete(this.modalStarting, res, 60000, 'Instanetwork Service Start Confirmed');
         },
         err => {
           this.onWaitingCompleteModal('btn btn-danger', 'Unable to start dashboard, please try again later.');
         });
   }
 
-  onWaitingComplete(modal, profile, waitMilli, body){
+  onWaitingComplete(modal, profile, waitMilli, body) {
     modal.open();
     setTimeout(()=> {
       modal.dismiss();
@@ -312,13 +307,10 @@ export class Dashboard {
   }
 
   incrementIp(ip) {
-    console.log("starting increment");
     this.ipService.incrementIp(ip)
       .subscribe(res => {
-          console.log("ip incremented");
         },
         err => {
-          console.log("ip increment failed");
         });
   }
 

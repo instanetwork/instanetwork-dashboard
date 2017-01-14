@@ -4,7 +4,6 @@ import {EmailValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
 import {UserService} from '../_services/user.service';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
-import {EmailService} from '../_services/email.service';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {Router} from '@angular/router';
@@ -27,7 +26,7 @@ export class ResetComponent {
   private error: string = '';
   private loading: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private userService: UserService, private emailService: EmailService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private userService: UserService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
 
     this.form = fb.group({
@@ -71,7 +70,6 @@ export class ResetComponent {
     this.userService.resetPassword(email).subscribe(result => {
       console.log(result + " " + result.email + " " + result.password);
         if (typeof result.email !== 'undefined' && typeof result.password !== 'undefined' && result.email === true) {
-          this.sendResetEmail(email, result.password);
           this.alertUserReset();
           this.loading = false;
           this.captcha.reset();
@@ -89,14 +87,6 @@ export class ResetComponent {
     );
   }
 
-  sendResetEmail(email, password) {
-    this.emailService.resetPasswordEmail(email, password).subscribe(result => {
-      },
-      (err) => {
-      }
-    );
-  }
-
   alertUserReset() {
     this.modal.alert()
       .size('sm')
@@ -106,7 +96,7 @@ export class ResetComponent {
       .title('Completed')
       .titleHtml('Instanetwork Service')
       .okBtnClass('btn btn-success')
-      .body('Password Successfully Changed')
+      .body('A temporary password has been sent to your email. You can change it while login.')
       .open()
       .then(dialog => dialog.result)
       .then(result => {

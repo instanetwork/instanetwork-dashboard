@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgaModule} from '../theme/nga.module';
 import {BrowserModule}  from '@angular/platform-browser';
 import {AuthenticationService} from '../_services/index';
-import {EmailService} from '../_services/email.service';
 import {UserService} from '../_services/user.service';
 import {ReCaptchaModule} from 'angular2-recaptcha';
 import {routing}       from './reset.routing';
@@ -31,7 +30,6 @@ import {ResetComponent} from './reset.component';
   ],
   providers: [
     AuthenticationService,
-    EmailService,
     UserService,
   ],
   bootstrap: [

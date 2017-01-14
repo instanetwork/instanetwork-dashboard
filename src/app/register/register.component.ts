@@ -3,7 +3,6 @@ import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/form
 import {EmailValidator, EqualPasswordsValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
-import {EmailService} from '../_services/email.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -31,7 +30,7 @@ export class RegisterComponent {
   private error: string = '';
   private loading: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private emailService: EmailService) {
+  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService) {
 
     this.form = fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])],
@@ -94,12 +93,6 @@ export class RegisterComponent {
     this.authenticationService.register(values['name'], values['email'], values['passwords']['password']).subscribe(result => {
         if (result === true) {
           this.loading = false;
-          this.emailService.registerEmail("stephenhyde@gmail.com").subscribe(result => {
-            },
-            (err) => {
-              this.errorOnStart();
-            }
-          );
           this.router.navigate(['/pages/home']);
         } else {
           this.errorOnStart();
