@@ -1,6 +1,7 @@
 <div class="auth-main">
   <div class="auth-block">
     <h1>Reset Password</h1>
+    <a routerLink="/login" class="auth-link">Remember Password? Login!</a>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
       <div class="form-group row"
            [ngClass]="{'has-error': ((!email.valid && email.touched) || !emailExist), 'has-success': (email.valid && email.touched)}">

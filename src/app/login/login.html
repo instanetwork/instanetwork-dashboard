@@ -5,7 +5,7 @@
 
     <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
       <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-        <label for="username" class="col-sm-2 control-label">Username</label>
+        <label for="username" id="username" class="col-sm-2 control-label">Username</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="username" placeholder="Username" [(ngModel)]="model.username" #username="ngModel"
                  required/>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-        <label for="password" class="col-sm-2 control-label">Password</label>
+        <label for="password" id="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
           <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="model.password" #password="ngModel"
                  required/>
