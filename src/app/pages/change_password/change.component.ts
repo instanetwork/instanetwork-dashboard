@@ -1,5 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation, ViewContainerRef} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import {EqualPasswordsValidator} from '../../theme/validators';
 import {UserService} from '../../_services/user.service';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
 import {Overlay} from 'angular2-modal';
@@ -30,7 +31,7 @@ export class Change {
       'passwords': fb.group({
         'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
         'repeatPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
-      })
+      }, {validator: EqualPasswordsValidator.validate('password', 'repeatPassword')})
     });
 
     this.passwords = <FormGroup> this.form.controls['passwords'];
@@ -39,11 +40,10 @@ export class Change {
   }
 
   public onSubmit(values: Object): void {
-    this.error = '';
-    this.loading = true;
-    this.submitted = true;
     if (this.form.valid && this.captcha.getResponse()) {
-      console.log(values);
+      this.error = '';
+      this.loading = true;
+      this.submitted = true;
       this.userService.changePassword(values['passwords']['password']).subscribe(result => {
           if (result === true) {
             this.captcha.reset();

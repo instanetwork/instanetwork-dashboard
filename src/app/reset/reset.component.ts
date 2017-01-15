@@ -37,10 +37,10 @@ export class ResetComponent {
   }
 
   public onSubmit(values: Object): void {
-    this.emailExist = true;
-    this.submitted = true;
-    this.error = "";
     if (this.form.valid && this.captcha.getResponse()) {
+      this.emailExist = true;
+      this.submitted = true;
+      this.error = "";
       this.loading = true;
       this.authenticationService.checkEmail(values['email'])
         .subscribe(result => {

@@ -54,12 +54,12 @@ export class RegisterComponent {
   }
 
   public onSubmit(values: Object): void {
-    this.emailExist = false;
-    this.usernameExist = false;
-    this.submitted = true;
-    this.error = "";
     if (this.form.valid && !this.usernamePatternMismatch && this.captcha.getResponse()) {
+      this.emailExist = false;
+      this.usernameExist = false;
+      this.error = "";
       this.loading = true;
+      this.submitted = true;
       this.authenticationService.checkUsername(values['name'])
         .subscribe(result => {
             if (result === false) {
