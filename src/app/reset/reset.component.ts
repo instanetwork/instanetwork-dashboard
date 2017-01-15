@@ -96,7 +96,7 @@ export class ResetComponent {
       .title('Completed')
       .titleHtml('Instanetwork Service')
       .okBtnClass('btn btn-success')
-      .body('A temporary password has been sent to your email. You can change it while login.')
+      .body('A temporary password has been sent to the email associated with the account.')
       .open()
       .then(dialog => dialog.result)
       .then(result => {
