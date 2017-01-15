@@ -1,21 +1,18 @@
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <div *ngIf="inputInvalid == false" class="input-group">
-      <span class="input-group-addon addon-left input-group-addon-primary">#</span>
-      <input type="text" class="form-control with-primary-addon" placeholder="Enter Hashtag" maxlength="50"
-             (keyup.enter)="addHashtag()" [value]="inputValue" (input)="newItemChanged($event)" autofocus>
+    <div class="input-group">
+      <span
+        [ngClass]="('input-group-addon addon-left' + ' ' + (inputInvalid ? 'input-group-addon-danger' : 'input-group-addon-primary'))">#</span>
+      <input type="text"
+             [ngClass]="('form-control' + ' ' + (inputInvalid ? 'with-danger-addon' : 'with-primary-addon'))"
+             placeholder="Enter Hashtag" maxlength="50" (keyup.enter)="!inputInvalid && addHashtag()"
+             [value]="inputValue"
+             (input)="newItemChanged($event)">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" (click)="inputValue.length !== 0 && addHashtag()"
-                [class.disabled]="inputValue.length === 0 || hashtags.length >= maxHashtags">Add</button>
-      </span>
-    </div>
-    <div *ngIf="inputInvalid == true" class="input-group">
-      <span class="input-group-addon addon-left input-group-addon-danger">#</span>
-      <input type="text" class="form-control with-danger-addon" placeholder="Enter Hashtag" maxlength="50"
-             [value]="inputValue" (input)="newItemChanged($event)">
-      <span class="input-group-btn">
-        <button class="btn btn-danger" type="button" (click)="false && addHashtag()"
-                [class.disabled]="true">Add</button>
+        <button [ngClass]="('btn' + ' ' + (inputInvalid ? 'btn-danger' : 'btn-primary'))"
+                type="button"
+                (click)="inputValue.length !== 0 && hashtags.length < maxHashtags && !inputInvalid && addHashtag()"
+                [class.disabled]="inputValue.length === 0 || hashtags.length >= maxHashtags || inputInvalid">Add</button>
       </span>
     </div>
     <p class="inputHashtagError">{{error}}</p>
@@ -50,13 +47,15 @@
   </div>
 </div>
 
-<div class="row" >
+<div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" *ngIf="activeService === 0" class="btn btn-default btn-lg" [class.disabled]="hashtags.length === 0"
+    <button type="button" *ngIf="activeService === 0" class="btn btn-default btn-lg"
+            [class.disabled]="hashtags.length === 0"
             (click)="modal.open()"><i class="ion-ios-play"></i>
       Start Service
     </button>
-    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg" (click)="onStopService()"><i class="ion-stop"></i>
+    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg" (click)="onStopService()"><i
+      class="ion-stop"></i>
       Stop Service
     </button>
   </div>
@@ -76,11 +75,13 @@
     </div>
     <div class="form-group">
       <label for="inputUsername5" id="inputUsernameLabelForm5">Username</label>
-      <input type="username" class="form-control" id="inputUsername5" placeholder="Username" [(ngModel)]="instaUsername">
+      <input type="username" class="form-control" id="inputUsername5" placeholder="Username"
+             [(ngModel)]="instaUsername">
     </div>
     <div class="form-group">
       <label for="inputPassword5" id="inputPasswordLabelForm5">Password</label>
-      <input type="password" class="form-control" id="inputPassword5" placeholder="Password" [(ngModel)]="instaPassword">
+      <input type="password" class="form-control" id="inputPassword5" placeholder="Password"
+             [(ngModel)]="instaPassword">
     </div>
     <div class="section-block red-text ">
       <p>{{loginError}}</p>
@@ -89,13 +90,15 @@
   <modal-footer>
     <img *ngIf="loading == true" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">
     <button [class.disabled]="loading" type="button" class="btn btn-success" (click)="onStartClicked()">Start</button>
-    <button [class.disabled]="loading" type="button" class="btn btn-danger"  (click)="onCancelledClicked()">Cancel</button>
+    <button [class.disabled]="loading" type="button" class="btn btn-danger" (click)="onCancelledClicked()">Cancel
+    </button>
   </modal-footer>
 </modal>
 
 <modal #modalStoping [keyboard]="false" [backdrop]="'static'">
   <modal-header>
-    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please wait while we stop your service
+    <h3 class="box-title"><img class="loadingImage" height="20" width="20"
+                               src="../../../assets/img/spinner-transparent.gif">Please wait while we stop your service
       <small>This will take a minute</small>
     </h3>
   </modal-header>
@@ -105,7 +108,8 @@
 
 <modal #modalStarting [keyboard]="false" [backdrop]="'static'">
   <modal-header>
-    <h3 class="box-title"><img class="loadingImage" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">Please wait while we start your service
+    <h3 class="box-title"><img class="loadingImage" height="20" width="20"
+                               src="../../../assets/img/spinner-transparent.gif">Please wait while we start your service
       <small>This will take a minute</small>
     </h3>
   </modal-header>
