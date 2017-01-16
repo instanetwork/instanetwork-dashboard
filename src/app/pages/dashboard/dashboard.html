@@ -88,7 +88,7 @@
     </div>
   </modal-body>
   <modal-footer>
-    <img *ngIf="loading == true" height="20" width="20" src="../../../assets/img/spinner-transparent.gif">
+    <img *ngIf="loading == true" height="20" width="20" src="./assets/img/spinner-transparent.gif">
     <button [class.disabled]="loading" type="button" class="btn btn-success" (click)="onStartClicked()">Start</button>
     <button [class.disabled]="loading" type="button" class="btn btn-danger" (click)="onCancelledClicked()">Cancel
     </button>
@@ -98,7 +98,7 @@
 <modal #modalStoping [keyboard]="false" [backdrop]="'static'">
   <modal-header>
     <h3 class="box-title"><img class="loadingImage" height="20" width="20"
-                               src="../../../assets/img/spinner-transparent.gif">Please wait while we stop your service
+                               src="./assets/img/spinner-transparent.gif">Please wait while we stop your service
       <small>This will take a minute</small>
     </h3>
   </modal-header>
@@ -109,7 +109,7 @@
 <modal #modalStarting [keyboard]="false" [backdrop]="'static'">
   <modal-header>
     <h3 class="box-title"><img class="loadingImage" height="20" width="20"
-                               src="../../../assets/img/spinner-transparent.gif">Please wait while we start your service
+                               src="./assets/img/spinner-transparent.gif">Please wait while we start your service
       <small>This will take a minute</small>
     </h3>
   </modal-header>
