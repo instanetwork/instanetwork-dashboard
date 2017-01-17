@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'pages',
     component: Pages,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', loadChildren: () => System.import('./home/home.module.ts') , canActivate: [AuthGuard]},
       { path: 'subscription', loadChildren: () => System.import('./subscription/subscription.module'), canActivate: [AuthGuard] },
       { path: 'dashboard', loadChildren: () => System.import('./dashboard/dashboard.module.ts'), canActivate: [AuthGuard] },

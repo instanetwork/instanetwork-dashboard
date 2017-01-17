@@ -5,7 +5,7 @@ import { RegisterComponent } from './register.component';
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
-    path: '',
+    path: 'register',
     component: RegisterComponent
   }
 ];

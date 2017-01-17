@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'reset', component: ResetComponent },
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'login' }
 
 ];
 

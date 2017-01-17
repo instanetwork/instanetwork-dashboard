@@ -5,7 +5,7 @@ import { ResetComponent } from './reset.component';
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
-    path: '',
+    path: 'reset',
     component: ResetComponent
   }
 ];

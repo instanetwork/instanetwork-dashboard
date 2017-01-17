@@ -3,7 +3,7 @@ import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/form
 import {EmailValidator, EqualPasswordsValidator} from '../theme/validators';
 import {AuthenticationService} from '../_services/index';
 import {ReCaptchaComponent} from 'angular2-recaptcha/lib/captcha.component';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -30,11 +30,20 @@ export class RegisterComponent {
   private error: string = '';
   private loading: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private fb: FormBuilder, private authenticationService: AuthenticationService, private activatedRoute: ActivatedRoute) {
+
+    let defaultUsername = '';
+    let defaultEmail = '';
+
+    this.activatedRoute.queryParams.subscribe(
+      result => {
+        defaultUsername = result['username'];
+        defaultEmail = result['email'];
+      });
 
     this.form = fb.group({
-      'name': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])],
-      'email': ['', Validators.compose([Validators.required, EmailValidator.validate])],
+      'name': [defaultUsername, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])],
+      'email': [defaultEmail, Validators.compose([Validators.required, EmailValidator.validate])],
       'passwords': fb.group({
         'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
         'repeatPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
@@ -49,7 +58,6 @@ export class RegisterComponent {
   }
 
   ngOnInit() {
-    // reset login status
     this.authenticationService.logout();
   }
 
