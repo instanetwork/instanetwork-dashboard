@@ -6,15 +6,16 @@ import {LoginResult} from '../_models/login.result';
 
 @Injectable()
 export class InstagramAuthenticationService {
-  private url = '68.168.123.138:21/validate';
+  private url = 'https://instanetwork.herokuapp.com/instagram/';
+  private tokenUrl = '?token=';
 
   constructor(private http: Http) {
 
   }
 
   validateInstagramUser(username, password, ip, port, proxyUsername, proxyPassword): Observable<LoginResult> {
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('properties', username + "," + password + "," + ip + "," + port + "," + proxyUsername + "," + proxyPassword);
-    return this.http.get(this.url, {search: params}).map(res => res.json());
+    let headers = new Headers({ 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.url, {'username' : username, 'password' : password, 'ip' : ip, 'port' : port, 'proxyUsername' : proxyUsername, 'proxyPassword' : proxyPassword}, options).map(res => res.json());
   }
 }
