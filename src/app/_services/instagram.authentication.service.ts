@@ -6,7 +6,7 @@ import {LoginResult} from '../_models/login.result';
 
 @Injectable()
 export class InstagramAuthenticationService {
-  private url = 'http://68.168.123.138:21/validate';
+  private url = '68.168.123.138:21/validate';
 
   constructor(private http: Http) {
 
