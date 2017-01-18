@@ -11,17 +11,17 @@ export class SubscriptionService {
   private session = JSON.parse(localStorage.getItem('currentUser')).token;
   private tokenUrl = '?token=';
 
-  constructor(private http: Http){
+  constructor(private http: Http) {
 
   }
 
   getEntries(): Observable<Subscription[]> {
-    return this.http.get(this.url + this.id  + this.tokenUrl + this.session).map(res => res.json());
+    return this.http.get(this.url + this.id + this.tokenUrl + this.session).map(res => res.json());
   }
 
   addTrial(): Observable<Subscription[]> {
-    let headers = new Headers({ 'Content-Type': 'application/json'});
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.url + 'trial/' + this.id  + this.tokenUrl + this.session,{},options).map(res => res.json());
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'trial/' + this.id + this.tokenUrl + this.session, {}, options).map(res => res.json());
   }
 }

@@ -22,12 +22,17 @@ export class ProfileService {
   stopService(): Observable<Profile[]> {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stop/' + this.id  + this.tokenUrl + this.session, {}, options).map(res => res.json());
+    return this.http.post(this.url + 'stop/' + this.id + this.tokenUrl + this.session, {}, options).map(res => res.json());
   }
 
   startService(tags, username, password, ip): Observable<Profile[]> {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'start/' + this.id + this.tokenUrl + this.session, {'tags' : tags, 'username' : username, 'password' : password, 'ip' : ip}, options).map(res => res.json());
+    return this.http.post(this.url + 'start/' + this.id + this.tokenUrl + this.session, {
+      'tags': tags,
+      'username': username,
+      'password': password,
+      'ip': ip
+    }, options).map(res => res.json());
   }
 }
