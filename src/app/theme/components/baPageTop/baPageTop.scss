@@ -163,8 +163,12 @@ a.collapse-menu-link {
 }
 
 @media (max-width: $resXXS) {
-  .user-profile{
+  .user-profile {
     min-width: 136px;
+    float: none;
+  }
+  .al-user-profile {
+    width: 25px;
   }
   a.refresh-data {
     margin-right: 10px;
