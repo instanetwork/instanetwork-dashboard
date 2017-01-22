@@ -37,12 +37,7 @@ export const PAGES_MENU = [
             order: 2
           }
         }
-      },
-      {
-        path: 'change',
-        data: {
-        }
-      },
+      }
     ]
   }
 ];

@@ -8,7 +8,7 @@ import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'register',
+  selector: 'change',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./change.scss')],
   template: require('./change.html'),
