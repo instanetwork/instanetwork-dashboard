@@ -30,9 +30,9 @@ module.exports = {
     { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/assets/icon/android-icon-192x192.png' },
 
     /** <link> tags for favicons **/
-    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/img/inetwork_favicon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/assets/img/inetwork_favicon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/img/inetwork_favicon.png' }
+    { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'http://www.instanetwork.ca/frontend/wp-content/uploads/2017/01/cropped-cropped-INSTANETWORK_i_LOGO_FINAL_2015-180x180.png' },
+    { rel: 'icon', type: 'image/png', sizes: '96x96', href: 'http://www.instanetwork.ca/frontend/wp-content/uploads/2017/01/cropped-cropped-INSTANETWORK_i_LOGO_FINAL_2015-180x180.png' },
+    { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'http://www.instanetwork.ca/frontend/wp-content/uploads/2017/01/cropped-cropped-INSTANETWORK_i_LOGO_FINAL_2015-180x180.png' }
 
   ],
   meta: [
