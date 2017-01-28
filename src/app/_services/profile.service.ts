@@ -7,8 +7,6 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class ProfileService {
   private url = 'https://instanetwork.herokuapp.com/profile/';
-  private id = JSON.parse(localStorage.getItem('currentUser')).id;
-  session = JSON.parse(localStorage.getItem('currentUser')).token;
   private tokenUrl = '?token=';
 
   constructor(private http: Http) {
@@ -16,19 +14,25 @@ export class ProfileService {
   }
 
   getProfile(): Observable<Profile[]> {
-    return this.http.get(this.url + this.id + this.tokenUrl + this.session).map(res => res.json());
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    return this.http.get(this.url + id + this.tokenUrl + session).map(res => res.json());
   }
 
   stopService(): Observable<Profile[]> {
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stop/' + this.id + this.tokenUrl + this.session, {}, options).map(res => res.json());
+    return this.http.post(this.url + 'stop/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
 
   startService(tags, username, password, ip): Observable<Profile[]> {
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'start/' + this.id + this.tokenUrl + this.session, {
+    return this.http.post(this.url + 'start/' + id + this.tokenUrl + session, {
       'tags': tags,
       'username': username,
       'password': password,

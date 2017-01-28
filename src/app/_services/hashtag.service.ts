@@ -7,8 +7,6 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class HashtagService {
   private url = 'https://instanetwork.herokuapp.com/hashtags/';
-  private id = JSON.parse(localStorage.getItem('currentUser')).id;
-  private session = JSON.parse(localStorage.getItem('currentUser')).token;
   private tokenUrl = '?token=';
 
   constructor(private http: Http) {
@@ -16,13 +14,17 @@ export class HashtagService {
   }
 
   getHashtags(): Observable<Hashtag[]> {
-    return this.http.get(this.url + this.id + this.tokenUrl + this.session).map(res => res.json());
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url + id + this.tokenUrl + session).map(res => res.json());
   }
 
   setHashtags(tags): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     console.log(tags);
-    return this.http.post(this.url + 'set/' + this.id + this.tokenUrl + this.session, {'tags': tags}, options).map(res => res.json());
+    return this.http.post(this.url + 'set/' + id + this.tokenUrl + session, {'tags': tags}, options).map(res => res.json());
   }
 }

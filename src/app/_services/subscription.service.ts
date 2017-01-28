@@ -7,8 +7,6 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class SubscriptionService {
   private url = 'https://instanetwork.herokuapp.com/subscription/';
-  private id = JSON.parse(localStorage.getItem('currentUser')).id;
-  private session = JSON.parse(localStorage.getItem('currentUser')).token;
   private tokenUrl = '?token=';
 
   constructor(private http: Http) {
@@ -16,12 +14,16 @@ export class SubscriptionService {
   }
 
   getEntries(): Observable<Subscription[]> {
-    return this.http.get(this.url + this.id + this.tokenUrl + this.session).map(res => res.json());
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url + id + this.tokenUrl + session).map(res => res.json());
   }
 
   addTrial(): Observable<Subscription[]> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'trial/' + this.id + this.tokenUrl + this.session, {}, options).map(res => res.json());
+    return this.http.post(this.url + 'trial/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
 }
