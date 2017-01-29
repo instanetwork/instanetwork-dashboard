@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { HashtagService } from '../../_services/hashtag.service';
 import { InstagramAuthenticationService } from '../../_services/instagram.authentication.service';
 import { ProfileService } from '../../_services/profile.service';
+import { SubscriptionService } from '../../_services/subscription.service';
 import { IpService } from '../../_services/ip.service';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -34,7 +35,8 @@ import { routing }       from './dashboard.routing.ts';
     HashtagService,
     InstagramAuthenticationService,
     ProfileService,
-    IpService
+    IpService,
+    SubscriptionService
   ],
   bootstrap: [
     Dashboard

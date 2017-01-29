@@ -2,7 +2,9 @@ import {Component, ViewContainerRef, ViewEncapsulation, ViewChild} from '@angula
 import {HashtagService} from '../../_services/hashtag.service';
 import {InstagramAuthenticationService} from '../../_services/instagram.authentication.service';
 import {ProfileService} from '../../_services/profile.service';
+import {SubscriptionService} from '../../_services/subscription.service';
 import {IpService} from '../../_services/ip.service';
+import {Router} from '@angular/router';
 
 import {Hashtag} from '../../_models/hashtag';
 import {Profile} from '../../_models/profile';
@@ -42,8 +44,9 @@ export class Dashboard {
   private profile: Profile[];
   private activeService: number = 0;
   private ipInfo: Ip;
+  private active: boolean = false;
 
-  constructor(private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService, private ipService: IpService) {
+  constructor(private router: Router, private subscriptionService: SubscriptionService, private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService, private ipService: IpService) {
     overlay.defaultViewContainer = vcRef;
   }
 
@@ -54,8 +57,10 @@ export class Dashboard {
       });
     this.profileService.getProfile()
       .subscribe(profile => {
-        if (profile.length == 0)
+        this.profile = profile;
+        if (profile.length == 0) {
           return;
+        }
         var lastStartUnix = new Date(profile[0].laststart).valueOf();
         var lastStopUnix = new Date(profile[0].lastran).valueOf();
         var currentTimeUnix = new Date().valueOf();
@@ -66,10 +71,18 @@ export class Dashboard {
         } else if (diffStop < 60000) {
           this.onWaitingComplete(this.modalStoping, profile, diffStop, 'Instanetwork Service Stopped');
         } else {
-          this.profile = profile;
           this.activeService = this.profile[0].active;
         }
       });
+    this.subscriptionService.hasActive()
+      .subscribe(active => {
+       if(active) {
+         this.active = true;
+       } else {
+         this.active = false;
+         this.noSubscriptionAlert();
+       }
+    });
   }
 
   private setHashtags(_tags: Hashtag[]) {
@@ -90,6 +103,11 @@ export class Dashboard {
   }
 
   addHashtag() {
+    if (!this.active)  {
+      this.noSubscriptionAlert();
+      return;
+    }
+
     if (this.inputInvalid == false && this.inputValue.length !== 0 && this.hashtags.length < this.maxHashtags) {
       for (var _i = 0; _i < this.hashtags.length; _i++) {
         if (this.hashtags[_i].toLowerCase() == this.inputValue.toLowerCase()) {
@@ -145,6 +163,11 @@ export class Dashboard {
   }
 
   onSave() {
+    if (!this.active)  {
+      this.noSubscriptionAlert();
+      return;
+    }
+
     this.modal.confirm()
       .size('lg')
       .isBlocking(true)
@@ -195,21 +218,23 @@ export class Dashboard {
   }
 
   onCancelledClicked() {
-    if (this.loading) {
-      return
-    }
+    if (this.loading) return;
     this.modalLogin.dismiss();
   }
 
   onStartClicked() {
-    if (this.loading) {
+
+    if (!this.active)  {
+      this.noSubscriptionAlert();
       return;
     }
+
+    if (this.loading) return;
 
     this.loginError = "";
     this.loading = true;
 
-    var ip = this.profile[0].ip;
+    var ip = this.profile.length > 0 ? this.profile[0].ip : false;
 
     if (!ip) {
       this.ipService.getLowestIp()
@@ -239,6 +264,11 @@ export class Dashboard {
   }
 
   onStopService() {
+    if (!this.active)  {
+      this.noSubscriptionAlert();
+      return;
+    }
+
     this.modal.confirm()
       .size('lg')
       .isBlocking(true)
@@ -287,7 +317,6 @@ export class Dashboard {
     modal.open();
     setTimeout(()=> {
       modal.dismiss();
-      this.profile = profile;
       this.activeService = profile[0].active;
       this.onWaitingCompleteModal('btn btn-success', body);
     }, waitMilli)
@@ -333,4 +362,22 @@ export class Dashboard {
         }
       );
   }
+    noSubscriptionAlert() {
+      this.modal.alert()
+        .size('sm')
+        .isBlocking(true)
+        .showClose(false)
+        .keyboard(27)
+        .title('Subscription')
+        .titleHtml('No Subscription')
+        .okBtnClass('btn btn-success')
+        .body('You must have a subscription to access this page')
+        .open()
+        .then(dialog => dialog.result)
+        .then(result => {
+          this.router.navigate(['/pages/subscription']);
+        })
+        .catch((ex) => {
+        });
+    }
 }

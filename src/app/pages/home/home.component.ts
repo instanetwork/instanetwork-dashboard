@@ -20,14 +20,14 @@ export class Home {
     this.trial = false;
     this.subExists = false;
     this.trialClicked = false;
-    this.currDate = new Date().setUTCHours(4);
+    var now = new Date();
+    this.currDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
   }
 
   ngOnInit() {
     this.subscriptionService.getEntries()
       .subscribe(subs => {
         this.subs = this.formatJson(subs);
-
         if (!this.subs || this.subs.length == 0) {
           this.subscriptionService.addTrial()
             .subscribe(subs => {
@@ -44,8 +44,8 @@ export class Home {
     }
 
     for (var _i = 0; _i < _subs.length; _i++) {
-      _subs[_i].start = new Date(_subs[_i].start).setUTCHours(4);
-      _subs[_i].end = new Date(_subs[_i].end).setUTCHours(4);
+      _subs[_i].start = new Date(_subs[_i].start).valueOf();
+      _subs[_i].end = new Date(_subs[_i].end).valueOf();
     }
 
     this.subExists = true;

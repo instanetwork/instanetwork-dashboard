@@ -24,7 +24,6 @@ export class HashtagService {
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    console.log(tags);
     return this.http.post(this.url + 'set/' + id + this.tokenUrl + session, {'tags': tags}, options).map(res => res.json());
   }
 }

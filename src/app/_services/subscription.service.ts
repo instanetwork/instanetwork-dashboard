@@ -19,6 +19,12 @@ export class SubscriptionService {
     return this.http.get(this.url + id + this.tokenUrl + session).map(res => res.json());
   }
 
+  hasActive(): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url + 'active/' + id + this.tokenUrl + session).map(res => res.json());
+  }
+
   addTrial(): Observable<Subscription[]> {
     let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
