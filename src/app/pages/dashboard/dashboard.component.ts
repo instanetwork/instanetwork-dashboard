@@ -175,7 +175,7 @@ export class Dashboard {
       .keyboard(27)
       .title('Save')
       .titleHtml('Are you sure you want to save these hashtags?')
-      .body('These hashtags will take affect during our maintenance period between 12-1 AM/PM EST. Your hashtags can take affect immediately by starting or restarting your service.')
+      .body('These hashtags will take affect at 12 AM/PM EST. Your hashtags can take affect immediately by starting or restarting your service.')
       .okBtn('Save')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
@@ -352,7 +352,7 @@ export class Dashboard {
             this.onStartConfirmed();
           }
           else {
-            this.loginError = "Unable to login, please try again or visit instagram.com and verify login";
+            this.loginError = "Unable to login, please hit 'it was me' on your Instagram app and try again or visit https://www.instagram.com to ensure login credentials.";
           }
           this.loading = false;
         },
