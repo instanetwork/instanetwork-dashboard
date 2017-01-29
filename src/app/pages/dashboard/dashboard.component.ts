@@ -303,7 +303,7 @@ export class Dashboard {
   onStartConfirmed() {
     this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, this.ipInfo.ip)
       .subscribe(res => {
-          if (!this.profile[0].ip) {
+          if (this.profile.length == 0 || !this.profile[0].ip) {
             this.incrementIp(this.ipInfo.ip);
           }
           this.onWaitingComplete(this.modalStarting, res, 60000, 'Instanetwork Service Start Confirmed');
