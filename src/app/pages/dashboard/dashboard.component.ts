@@ -34,6 +34,7 @@ export class Dashboard {
   private inputValue: string = "";
   private inputInvalid: boolean = false;
   private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
+  private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_.]');
   private error: string = "";
   private loginError: string = "";
   private lastHighlightedTag: string = "";
@@ -45,7 +46,7 @@ export class Dashboard {
   private activeService: number = 0;
   private ipInfo: Ip;
   private active: boolean = false;
-
+  private usernameError: string = "";
   constructor(private router: Router, private subscriptionService: SubscriptionService, private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService, private ipService: IpService) {
     overlay.defaultViewContainer = vcRef;
   }
@@ -219,6 +220,8 @@ export class Dashboard {
 
   onCancelledClicked() {
     if (this.loading) return;
+    this.usernameError = '';
+    this.loginError = '';
     this.modalLogin.dismiss();
   }
 
@@ -231,6 +234,12 @@ export class Dashboard {
 
     if (this.loading) return;
 
+    if (this.allowedUsernameCharacters.test(this.instaUsername)) {
+      this.usernameError = 'Username can only contain letters, numbers, underscores and periods';
+      return;
+    }
+
+    this.usernameError = "";
     this.loginError = "";
     this.loading = true;
 
