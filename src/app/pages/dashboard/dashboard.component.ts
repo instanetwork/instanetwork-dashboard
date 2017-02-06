@@ -361,7 +361,7 @@ export class Dashboard {
             this.onStartConfirmed();
           }
           else {
-            this.loginError = "Unable to login, please hit 'it was me' on your Instagram app and try again or visit https://www.instagram.com to ensure login credentials.";
+            this.loginError = "Unable to login, you may have to hit 'it was me' on your Instagram app and try again or visit https://www.instagram.com to ensure login credentials.";
           }
           this.loading = false;
         },
