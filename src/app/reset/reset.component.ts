@@ -68,8 +68,7 @@ export class ResetComponent {
 
   resetPassword(email) {
     this.userService.resetPassword(email).subscribe(result => {
-      console.log(result + " " + result.email + " " + result.password);
-        if (typeof result.email !== 'undefined' && typeof result.password !== 'undefined' && result.email === true) {
+        if (typeof result.email !== 'undefined' && result.email === true) {
           this.alertUserReset();
           this.loading = false;
           this.captcha.reset();
