@@ -160,12 +160,19 @@ export class Dashboard {
   }
 
   onDelete() {
+    if (this.hashtags.length === 0) {
+      return;
+    }
     this.deleteHashtag();
   }
 
   onSave() {
     if (!this.active)  {
       this.noSubscriptionAlert();
+      return;
+    }
+
+    if (this.hashtags.length === 0) {
       return;
     }
 
@@ -233,6 +240,11 @@ export class Dashboard {
     }
 
     if (this.loading) return;
+
+    if (this.hashtags.length === 0) {
+      this.loginError = 'No Hashtags are present, please exit and add hashtags';
+      return;
+    }
 
     if (this.allowedUsernameCharacters.test(this.instaUsername)) {
       this.usernameError = 'Username can only contain letters, numbers, underscores and periods';
