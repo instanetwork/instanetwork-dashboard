@@ -1,7 +1,7 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 import {AuthenticationService} from './index';
 import {User} from '../_models/user';
@@ -38,5 +38,35 @@ export class UserService {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'password/reset_password/' + email, {}, options).map(res => res.json());
+  }
+
+  addStripeAndCharge(stripe_token, insta_package): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'stripe/startSubscription/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
+  }
+
+  getSubscriptionPackage() {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url + 'users/package/'+ id + this.tokenUrl + session).map(res => res.json());
+  }
+
+  upgradeSubscription(insta_package): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'stripe/changesubscription/' + id + this.tokenUrl + session, {'package' : insta_package}, options).map(res => res.json());
+  }
+
+  cancelSubscription(): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'stripe/cancelsubscription/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
 }
