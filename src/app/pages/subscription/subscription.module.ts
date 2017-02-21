@@ -1,12 +1,13 @@
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgaModule } from '../../theme/nga.module';
-import { UserService } from '../../_services/user.service';
+import {NgModule}      from '@angular/core';
+import {CommonModule}  from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {NgaModule} from '../../theme/nga.module';
+import {UserService} from '../../_services/user.service';
+import {SubscriptionService} from '../../_services/subscription.service';
 import {ModalModule} from 'angular2-modal';
 import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
-import { Subscription } from './subscription.component.ts';
-import { routing }       from './subscription.routing.ts';
+import {Subscription} from './subscription.component.ts';
+import {routing}       from './subscription.routing.ts';
 
 @NgModule({
   imports: [
@@ -21,7 +22,9 @@ import { routing }       from './subscription.routing.ts';
     Subscription
   ],
   providers: [
-    UserService
+    UserService,
+    SubscriptionService
   ]
 })
-export default class SubscriptionModule {}
+export default class SubscriptionModule {
+}

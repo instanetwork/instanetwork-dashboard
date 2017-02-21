@@ -36,8 +36,10 @@
             </table>
           </div>
           <div class="panel-footer">
-
             <button [ngClass]="('btn' + ' ' + (priButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutPrimary()">{{priButton}}</button>
+          </div>
+          <div>
+            <small>{{effDate}}</small>
           </div>
         </div>
       </div>
@@ -79,6 +81,9 @@
           <div class="panel-footer">
             <button [ngClass]="('btn' + ' ' + (preButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutPremium()">{{preButton}}</button>
           </div>
+          <div>
+            <small>{{effDate}}</small>
+          </div>
         </div>
       </div>
       <div class="col-xs-12 col-md-3">
@@ -118,6 +123,9 @@
           </div>
           <div class="panel-footer">
             <button [ngClass]="('btn' + ' ' + (busButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutBusiness()">{{busButton}}</button>
+          </div>
+          <div>
+            <small>{{effDate}}</small>
           </div>
         </div>
       </div>

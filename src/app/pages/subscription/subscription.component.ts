@@ -2,6 +2,7 @@ import {Component, ViewEncapsulation, Renderer, ViewContainerRef} from '@angular
 import {UserService} from '../../_services/user.service';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
+import {SubscriptionService} from '../../_services/subscription.service';
 
 @Component({
   selector: 'subscription',
@@ -23,13 +24,55 @@ export class Subscription {
 
   private currentUser: number;
   private globalListener: any;
-  private busButton: string = 'Subscribe';
-  private preButton: string = 'Subscribe';
-  private priButton: string = 'Subscribe';
+  private busButton: string = '';
+  private preButton: string = '';
+  private priButton: string = '';
+  private effDate: string = '';
+  private maxDate: string = '';
 
-  constructor(private renderer: Renderer, private userService: UserService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+  constructor(private renderer: Renderer, private userService: UserService, private subscriptionService: SubscriptionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  ngOnInit() {
+    this.priButton = this.subscribeString;
+    this.preButton = this.subscribeString;
+    this.busButton = this.subscribeString;
+
+    this.subscriptionService.getEndDate()
+      .subscribe(result => {
+          if (result != "") {
+            this.maxDate = result;
+            var today = new Date();
+            var maxDate = new Date(result);
+
+            console.log(today);
+            console.log(maxDate);
+            if (maxDate >= today) {
+              this.effDate = 'Effective date of ' + maxDate.getUTCFullYear() + "-" + (maxDate.getUTCMonth() + 1) + "-" + (maxDate.getUTCDate() + 1);
+            } else {
+              this.effDate = '';
+            }
+            this.userService.getSubscriptionPackage()
+              .subscribe(result => {
+                  if (result) {
+                    this.updatebuttons(result.package);
+                  } else {
+                  }
+                },
+                (err) => {
+                }
+              );
+          } else {
+
+          }
+        },
+        (err) => {
+        }
+      );
+
+
   }
 
   private openCheckoutBusiness() {
@@ -134,7 +177,8 @@ export class Subscription {
       description: pack + 'Package',
       amount: price,
       image: './assets/img/stripe_logo.jpg',
-      currency: 'cad'
+      currency: 'cad',
+      'panel-label' : 'Subscribe'
     });
 
     this.globalListener = this.renderer.listenGlobal('window', 'popstate', () => {

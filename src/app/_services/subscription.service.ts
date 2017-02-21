@@ -32,4 +32,10 @@ export class SubscriptionService {
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'trial/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
+
+  getEndDate() {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url + 'end/' + id + this.tokenUrl + session).map(res => res.json());
+  }
 }
