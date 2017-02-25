@@ -208,6 +208,7 @@ export class Subscription {
       amount: price,
       image: './assets/img/stripe_logo.jpg',
       currency: 'cad',
+      'billing-address': true,
       'panel-label': 'Subscribe'
     });
 
@@ -245,6 +246,7 @@ export class Subscription {
       amount: price,
       image: './assets/img/stripe_logo.jpg',
       currency: 'cad',
+      'billing-address': true,
       'panel-label': 'Subscribe'
     });
 
