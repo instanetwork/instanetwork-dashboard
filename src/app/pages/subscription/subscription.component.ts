@@ -11,6 +11,8 @@ import {SubscriptionService} from '../../_services/subscription.service';
   template: require('./subscription.html')
 })
 export class Subscription {
+  readonly stripeProdKey: string = 'pk_test_rgv209vKtNJJOruFdt12meDo';
+  readonly stripeTestKey: string = 'pk_test_rgv209vKtNJJOruFdt12meDo';
   readonly subscribeString: string = 'Subscribe';
   readonly cancelString: string = 'Cancel';
   readonly upgradeString: string = 'Upgrade';
@@ -28,7 +30,8 @@ export class Subscription {
   private preButton: string = '';
   private priButton: string = '';
   private effDate: string = '';
-  private maxDate: string = '';
+  private maxDate: Date;
+  private offsetMaxDate: Date;
 
   constructor(private renderer: Renderer, private userService: UserService, private subscriptionService: SubscriptionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
@@ -43,13 +46,14 @@ export class Subscription {
     this.subscriptionService.getEndDate()
       .subscribe(result => {
           if (result != "") {
-            this.maxDate = result;
             var today = new Date();
             var maxDate = new Date(result);
-
+            this.maxDate = maxDate;
             console.log(today);
             console.log(maxDate);
             if (maxDate >= today) {
+              this.offsetMaxDate = this.maxDate;
+              this.offsetMaxDate.setHours(this.maxDate.getHours() - 1);
               this.effDate = 'Effective date of ' + maxDate.getUTCFullYear() + "-" + (maxDate.getUTCMonth() + 1) + "-" + (maxDate.getUTCDate() + 1);
             } else {
               this.effDate = '';
@@ -150,9 +154,35 @@ export class Subscription {
   }
 
   private checkout(price, pack) {
+    if (this.effDate == '' || new Date() >= this.offsetMaxDate) {
+      this.subscribe(price, pack);
+    } else {
+      this.modal.confirm()
+        .size('lg')
+        .isBlocking(true)
+        .showClose(true)
+        .keyboard(27)
+        .title('Save')
+        .titleHtml('Instanetwork Subscription')
+        .body('You will not be charged till the last day of your current subscription')
+        .okBtn('Continue')
+        .okBtnClass('btn btn-success')
+        .cancelBtn('Cancel')
+        .cancelBtnClass('btn btn-danger')
+        .open()
+        .then(dialog => dialog.result)
+        .then(result => {
+          this.presubscribe(price, pack);
+        })
+        .catch((ex) => {
+        });
+    }
+  }
+
+  private subscribe(price, pack) {
     var me = this;
     var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_rgv209vKtNJJOruFdt12meDo',
+      key: this.stripeTestKey,
       locale: 'auto',
       token: function (token: any) {
         console.log("hey " + token.id);
@@ -178,7 +208,44 @@ export class Subscription {
       amount: price,
       image: './assets/img/stripe_logo.jpg',
       currency: 'cad',
-      'panel-label' : 'Subscribe'
+      'panel-label': 'Subscribe'
+    });
+
+    this.globalListener = this.renderer.listenGlobal('window', 'popstate', () => {
+      handler.close();
+    });
+  }
+
+  private presubscribe(price, pack) {
+    var me = this;
+    var handler = (<any>window).StripeCheckout.configure({
+      key: this.stripeTestKey,
+      locale: 'auto',
+      token: function (token: any) {
+        console.log("hey " + token.id);
+        me.userService.addStripeSubscription(token.id, pack)
+          .subscribe(result => {
+              if (result) {
+                me.alertUserSubscriptionComplete('A subscription was successfully added to your account! You will not be charged till the last day of your current subscription', 'btn btn-success');
+                me.updatebuttons(pack);
+              } else {
+                me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support if necessary', 'btn btn-danger');
+              }
+            },
+            (err) => {
+              me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support if necessary', 'btn btn-danger');
+            }
+          );
+      }
+    });
+
+    handler.open({
+      name: 'INSTANETWORK INC',
+      description: pack + 'Package',
+      amount: price,
+      image: './assets/img/stripe_logo.jpg',
+      currency: 'cad',
+      'panel-label': 'Subscribe'
     });
 
     this.globalListener = this.renderer.listenGlobal('window', 'popstate', () => {
@@ -223,7 +290,7 @@ export class Subscription {
     this.userService.cancelSubscription()
       .subscribe(result => {
           if (result) {
-            this.alertUserSubscriptionComplete('The subscription for ' + pack + ' was successfully Cancelled, ', 'btn btn-success');
+            this.alertUserSubscriptionComplete('The subscription for ' + pack + ' was successfully Cancelled ', 'btn btn-success');
             this.updatebuttons('');
           } else {
             this.alertUserSubscriptionComplete('There was an error with cancelling your subscription, please contact support or try again!', 'btn btn-danger');

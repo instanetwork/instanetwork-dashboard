@@ -48,6 +48,14 @@ export class UserService {
     return this.http.post(this.url + 'stripe/startSubscription/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
   }
 
+  addStripeSubscription(stripe_token, insta_package): Observable<boolean> {
+    let id = JSON.parse(localStorage.getItem('currentUser')).id;
+    let session = JSON.parse(localStorage.getItem('currentUser')).token;
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'stripe/createSubscription/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
+  }
+
   getSubscriptionPackage() {
     let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
