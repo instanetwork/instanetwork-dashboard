@@ -192,7 +192,7 @@ export class Subscription {
                 me.alertUserSubscriptionComplete('A subscription was successfully added to your account!', 'btn btn-success');
                 me.updatebuttons(pack);
               } else {
-                me.alertUserSubscriptionComplete('There was an error with your subscription, please check no charge was applied and contact support if necessary', 'btn btn-danger');
+                me.alertUserSubscriptionComplete('There was an error with your subscription, unable to process your card', 'btn btn-danger');
               }
             },
             (err) => {

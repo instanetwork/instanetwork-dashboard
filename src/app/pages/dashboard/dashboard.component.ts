@@ -297,7 +297,7 @@ export class Dashboard {
       .keyboard(27)
       .title('Save')
       .titleHtml('Instanetwork Service')
-      .body('Are you sure you want to stop the Instanetwork dashboard?')
+      .body('Are you sure you want to stop the Instanetwork service?')
       .okBtn('Yes')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
@@ -317,7 +317,7 @@ export class Dashboard {
           this.onWaitingComplete(this.modalStoping, res, 60000, 'Instanetwork Service Stop Confirmed');
         },
         err => {
-          this.onWaitingCompleteModal('btn btn-danger', 'Unable to stop dashboard, please try again later.');
+          this.onWaitingCompleteModal('btn btn-danger', 'Unable to stop service, please try again later.');
         });
   }
 
@@ -330,7 +330,7 @@ export class Dashboard {
           this.onWaitingComplete(this.modalStarting, res, 60000, 'Instanetwork Service Start Confirmed');
         },
         err => {
-          this.onWaitingCompleteModal('btn btn-danger', 'Unable to start dashboard, please try again later.');
+          this.onWaitingCompleteModal('btn btn-danger', 'Unable to start service, please try again later.');
         });
   }
 
