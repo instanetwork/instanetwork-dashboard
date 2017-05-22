@@ -10,6 +10,7 @@ import {User} from '../_models/user';
 export class UserService {
   private token: string;
   private url = 'https://instanetwork.herokuapp.com/';
+  // private url = 'http://localhost:3001/';
   private tokenUrl = '?token=';
 
   constructor(private http: Http,
@@ -40,20 +41,12 @@ export class UserService {
     return this.http.post(this.url + 'password/reset_password/' + email, {}, options).map(res => res.json());
   }
 
-  addStripeAndCharge(stripe_token, insta_package): Observable<boolean> {
-    let id = JSON.parse(localStorage.getItem('currentUser')).id;
-    let session = JSON.parse(localStorage.getItem('currentUser')).token;
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stripe/startSubscription/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
-  }
-
   addStripeSubscription(stripe_token, insta_package): Observable<boolean> {
     let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stripe/createSubscription/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
+    return this.http.post(this.url + 'stripe/start/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
   }
 
   getSubscriptionPackage() {
@@ -67,7 +60,7 @@ export class UserService {
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stripe/changesubscription/' + id + this.tokenUrl + session, {'package' : insta_package}, options).map(res => res.json());
+    return this.http.post(this.url + 'stripe/change/' + id + this.tokenUrl + session, {'package' : insta_package}, options).map(res => res.json());
   }
 
   cancelSubscription(): Observable<boolean> {
@@ -75,6 +68,6 @@ export class UserService {
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stripe/cancelsubscription/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
+    return this.http.post(this.url + 'stripe/cancel/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
 }

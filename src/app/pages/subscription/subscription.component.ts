@@ -189,7 +189,7 @@ export class Subscription {
       locale: 'auto',
       token: function (token: any) {
         console.log("hey " + token.id);
-        me.userService.addStripeAndCharge(token.id, pack)
+        me.userService.addStripeSubscription(token.id, pack)
           .subscribe(result => {
               if (result) {
                 me.alertUserSubscriptionComplete('A subscription was successfully added to your account!', 'btn btn-success');
@@ -233,11 +233,11 @@ export class Subscription {
                 me.alertUserSubscriptionComplete('A subscription was successfully added to your account! You will not be charged till the last day of your current subscription', 'btn btn-success');
                 me.updatebuttons(pack);
               } else {
-                me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support if necessary', 'btn btn-danger');
+                me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support', 'btn btn-danger');
               }
             },
             (err) => {
-              me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support if necessary', 'btn btn-danger');
+              me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support', 'btn btn-danger');
             }
           );
       }
