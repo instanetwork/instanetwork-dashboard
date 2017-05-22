@@ -42,7 +42,10 @@ export class Subscription {
     this.priButton = this.subscribeString;
     this.preButton = this.subscribeString;
     this.busButton = this.subscribeString;
+    this.effectiveDate();
+  }
 
+  private effectiveDate() {
     this.subscriptionService.getEndDate()
       .subscribe(result => {
           if (result != "") {
@@ -58,25 +61,25 @@ export class Subscription {
             } else {
               this.effDate = '';
             }
-            this.userService.getSubscriptionPackage()
-              .subscribe(result => {
-                  if (result) {
-                    this.updatebuttons(result.package);
-                  } else {
-                  }
-                },
-                (err) => {
-                }
-              );
-          } else {
-
+            this.getPackage();
           }
         },
         (err) => {
         }
       );
+  }
 
-
+  private getPackage() {
+    this.userService.getSubscriptionPackage()
+      .subscribe(result => {
+          if (result) {
+            this.updatebuttons(result.package);
+          } else {
+          }
+        },
+        (err) => {
+        }
+      );
   }
 
   private openCheckoutBusiness() {
@@ -309,6 +312,7 @@ export class Subscription {
       .subscribe(result => {
           if (result) {
             this.alertUserSubscriptionComplete('The subscription was successfully changed to ' + pack + '!', 'btn btn-success');
+            this.effectiveDate();
             this.updatebuttons(pack);
           } else {
             this.alertUserSubscriptionComplete('There was an error with changing your subscription, please contact support or try again!', 'btn btn-danger');
