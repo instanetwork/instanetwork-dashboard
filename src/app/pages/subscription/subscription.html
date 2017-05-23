@@ -1,133 +1,152 @@
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-3">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Primary</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Primary</h3>
+        </div>
+        <div class="panel-body">
+          <div class="the-price">
+            <h1>
+              {{primaryViewCost}}<span class="subscript">/mo</span></h1>
+            <small>Effective</small>
           </div>
-          <div class="panel-body">
-            <div class="the-price">
-              <h1>
-                60<span class="subscript">/mo</span></h1>
-              <small>Effective</small>
-            </div>
-            <table class="table">
-              <tr class="spaceUnder">
-                <td>
-                  Auto-Liking Service
-                </td>
-              </tr>
-              <tr class="spaceUnder">
-                <td>
-                  Up to 30,000 Likes Monthly
-                </td>
-              </tr>
-              <tr class="spaceUnder">
-                <td>
-                  Inappropriate Content Filtering
-                </td>
-              </tr>
-              <tr class="spaceUnder">
-                <td>
-                  Unique User Engagement
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="panel-footer">
-            <button [ngClass]="('btn' + ' ' + (priButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutPrimary()">{{priButton}}</button>
-          </div>
-          <div>
-            <small>{{effDate}}</small>
-          </div>
+          <table class="table">
+            <tr class="spaceUnder">
+              <td>
+                Auto-Liking Service
+              </td>
+            </tr>
+            <tr class="spaceUnder">
+              <td>
+                Up to 30,000 Likes Monthly
+              </td>
+            </tr>
+            <tr class="spaceUnder">
+              <td>
+                Inappropriate Content Filtering
+              </td>
+            </tr>
+            <tr class="spaceUnder">
+              <td>
+                Unique User Engagement
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <button [ngClass]="('btn' + ' ' + (priButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button"
+                  (click)="openCheckoutPrimary()">{{priButton}}
+          </button>
+        </div>
+        <div>
+          <small>{{effDate}}</small>
         </div>
       </div>
-      <div class="col-xs-12 col-md-3">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Premium</h3>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Premium</h3>
+        </div>
+        <div class="panel-body">
+          <div class="the-price">
+            <h1>
+              {{premiumViewCost}}<span class="subscript">/mo</span></h1>
+            <small>Extremely Effective</small>
           </div>
-          <div class="panel-body">
-            <div class="the-price">
-              <h1>
-                80<span class="subscript">/mo</span></h1>
-              <small>Extremely Effective</small>
-            </div>
-            <table class="table">
-              <tr>
-                <td>
-                  Auto-Liking Service
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Up to 45,000 Likes Monthly
-                </td>
-              </tr>
-              <tr class="active">
-                <td>
-                  Inappropriate Content Filtering
-                </td>
-              </tr>
-              <tr class="active">
-                <td>
-                  Unique User Engagement
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="panel-footer">
-            <button [ngClass]="('btn' + ' ' + (preButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutPremium()">{{preButton}}</button>
-          </div>
-          <div>
-            <small>{{effDate}}</small>
-          </div>
+          <table class="table">
+            <tr>
+              <td>
+                Auto-Liking Service
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Up to 45,000 Likes Monthly
+              </td>
+            </tr>
+            <tr class="active">
+              <td>
+                Inappropriate Content Filtering
+              </td>
+            </tr>
+            <tr class="active">
+              <td>
+                Unique User Engagement
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <button [ngClass]="('btn' + ' ' + (preButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button"
+                  (click)="openCheckoutPremium()">{{preButton}}
+          </button>
+        </div>
+        <div>
+          <small>{{effDate}}</small>
         </div>
       </div>
-      <div class="col-xs-12 col-md-3">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Business</h3>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Business</h3>
+        </div>
+        <div class="panel-body">
+          <div class="the-price">
+            <h1>
+              {{businessViewCost}}<span class="subscript">/mo</span></h1>
+            <small>Exceptionally Effective</small>
           </div>
-          <div class="panel-body">
-            <div class="the-price">
-              <h1>
-                100<span class="subscript">/mo</span></h1>
-              <small>Exceptionally Effective</small>
-            </div>
-            <table class="table">
-              <tr>
-                <td>
-                  Auto-Liking Service
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Up to 60,000 Likes Monthly
-                </td>
-              </tr>
-              <tr class="active">
-                <td>
-                  Inappropriate Content Filtering
-                </td>
-              </tr>
-              <tr class="active">
-                <td>
-                  Unique User Engagement
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="panel-footer">
-            <button [ngClass]="('btn' + ' ' + (busButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button" (click)="openCheckoutBusiness()">{{busButton}}</button>
-          </div>
-          <div>
-            <small>{{effDate}}</small>
-          </div>
+          <table class="table">
+            <tr>
+              <td>
+                Auto-Liking Service
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Up to 60,000 Likes Monthly
+              </td>
+            </tr>
+            <tr class="active">
+              <td>
+                Inappropriate Content Filtering
+              </td>
+            </tr>
+            <tr class="active">
+              <td>
+                Unique User Engagement
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <button [ngClass]="('btn' + ' ' + (busButton === cancelString ? 'btn-danger' : 'btn-primary'))" role="button"
+                  (click)="openCheckoutBusiness()">{{busButton}}
+          </button>
+        </div>
+        <div>
+          <small>{{effDate}}</small>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+        <input class="form-control with-primary-addon" placeholder="Promo Code" type="text"
+               [class.disabled]="promoApplied === true" (input)="newItemChanged($event)">
+        <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" [class.disabled]="promoApplied === true"
+                (click)="promoApplied === false && promoClicked()">Apply</button>
+      </span>
+      </div>
+    </div>
+  </div>
+</div>

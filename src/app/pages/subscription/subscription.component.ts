@@ -3,6 +3,7 @@ import {UserService} from '../../_services/user.service';
 import {Overlay} from 'angular2-modal';
 import {Modal} from 'angular2-modal/plugins/bootstrap';
 import {SubscriptionService} from '../../_services/subscription.service';
+import {PromotionService} from '../../_services/promotion.service';
 
 @Component({
   selector: 'subscription',
@@ -20,9 +21,6 @@ export class Subscription {
   readonly primaryString: string = 'Primary';
   readonly premiumString: string = 'Premium';
   readonly businessString: string = 'Business';
-  readonly businessCost: number = 10000;
-  readonly premiumCost: number = 8000;
-  readonly primaryCost: number = 6000;
 
   private currentUser: number;
   private globalListener: any;
@@ -32,8 +30,20 @@ export class Subscription {
   private effDate: string = '';
   private maxDate: Date;
   private offsetMaxDate: Date;
+  private promoApplied: boolean = false;
+  private inputValue: string = '';
+  private businessCost: number = 10000;
+  private premiumCost: number = 8000;
+  private primaryCost: number = 6000;
+  private businessViewCost: number = 100;
+  private premiumViewCost: number = 80;
+  private primaryViewCost: number = 60;
+  private businessPromoApplied: boolean = false;
+  private premiumPromoApplied: boolean = false;
+  private primaryPromoApplied: boolean = false;
 
-  constructor(private renderer: Renderer, private userService: UserService, private subscriptionService: SubscriptionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+
+  constructor(private renderer: Renderer, private userService: UserService, private subscriptionService: SubscriptionService, private promotionService: PromotionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
     overlay.defaultViewContainer = vcRef;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
@@ -65,6 +75,43 @@ export class Subscription {
           }
         },
         (err) => {
+        }
+      );
+  }
+
+  newItemChanged(event: KeyboardEvent): void {
+    const target = <HTMLInputElement> event.target;
+    this.inputValue = target.value;
+    if (event.keyCode == 13) {
+      this.promoClicked();
+    }
+  }
+
+  private promoClicked() {
+    console.log("test " + this.inputValue);
+    if (this.inputValue === ''){
+      return;
+    }
+
+    this.promotionService.getPromo(this.inputValue)
+      .subscribe(result => {
+          if (result) {
+            console.log(result.value);
+            this.promoApplied = true;
+            this.primaryViewCost = 20;
+            this.primaryCost = 2000;
+            this.alertUserSubscriptionComplete('Promo code was applied', 'btn btn-success');
+          } else {
+            this.alertUserSubscriptionComplete('Promo code does not exist', 'btn btn-danger');
+          }
+        },
+        (err) => {
+          if(err.status === 404) {
+            this.alertUserSubscriptionComplete('Promo code does not exist', 'btn btn-danger');
+          } else {
+            this.alertUserSubscriptionComplete('There was an error with your promo code, try again or contact support', 'btn btn-danger');
+          }
+          console.log("tesasdft " + err.status);
         }
       );
   }
