@@ -8,7 +8,7 @@
         </div>
         <div class="panel-body">
           <div class="the-price">
-            <h1>
+            <h1 [ngClass]="(primaryPromoApplied ? 'price-color' : '')">
               {{primaryViewCost}}<span class="subscript">/mo</span></h1>
             <small>Effective</small>
           </div>
@@ -53,7 +53,7 @@
         </div>
         <div class="panel-body">
           <div class="the-price">
-            <h1>
+            <h1 [ngClass]="(premiumPromoApplied ? 'price-color' : '')">
               {{premiumViewCost}}<span class="subscript">/mo</span></h1>
             <small>Extremely Effective</small>
           </div>
@@ -98,7 +98,7 @@
         </div>
         <div class="panel-body">
           <div class="the-price">
-            <h1>
+            <h1 [ngClass]="(businessPromoApplied ? 'price-color' : '')">
               {{businessViewCost}}<span class="subscript">/mo</span></h1>
             <small>Exceptionally Effective</small>
           </div>

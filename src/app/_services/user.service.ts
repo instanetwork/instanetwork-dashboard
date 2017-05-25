@@ -9,8 +9,8 @@ import {User} from '../_models/user';
 @Injectable()
 export class UserService {
   private token: string;
-  private url = 'https://instanetwork.herokuapp.com/';
-  // private url = 'http://localhost:3001/';
+  // private url = 'https://instanetwork.herokuapp.com/';
+  private url = 'http://localhost:3001/';
   private tokenUrl = '?token=';
 
   constructor(private http: Http,
@@ -41,12 +41,12 @@ export class UserService {
     return this.http.post(this.url + 'password/reset_password/' + email, {}, options).map(res => res.json());
   }
 
-  addStripeSubscription(stripe_token, insta_package): Observable<boolean> {
+  addStripeSubscription(stripe_token, insta_package, coupon): Observable<boolean> {
     let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'stripe/start/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package}, options).map(res => res.json());
+    return this.http.post(this.url + 'stripe/start/' + id + this.tokenUrl + session, {'token': stripe_token, 'package' : insta_package, 'coupon': coupon}, options).map(res => res.json());
   }
 
   getSubscriptionPackage() {

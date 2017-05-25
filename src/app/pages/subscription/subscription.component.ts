@@ -21,6 +21,9 @@ export class Subscription {
   readonly primaryString: string = 'Primary';
   readonly premiumString: string = 'Premium';
   readonly businessString: string = 'Business';
+  readonly businessCost: number = 100;
+  readonly premiumCost: number = 80;
+  readonly primaryCost: number = 60;
 
   private currentUser: number;
   private globalListener: any;
@@ -32,15 +35,17 @@ export class Subscription {
   private offsetMaxDate: Date;
   private promoApplied: boolean = false;
   private inputValue: string = '';
-  private businessCost: number = 10000;
-  private premiumCost: number = 8000;
-  private primaryCost: number = 6000;
+
+  private businessTotalCost: number = 10000;
+  private premiumTotalCost: number = 8000;
+  private primaryTotalCost: number = 6000;
   private businessViewCost: number = 100;
   private premiumViewCost: number = 80;
   private primaryViewCost: number = 60;
   private businessPromoApplied: boolean = false;
   private premiumPromoApplied: boolean = false;
   private primaryPromoApplied: boolean = false;
+  private coupon: string = '';
 
 
   constructor(private renderer: Renderer, private userService: UserService, private subscriptionService: SubscriptionService, private promotionService: PromotionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
@@ -88,7 +93,6 @@ export class Subscription {
   }
 
   private promoClicked() {
-    console.log("test " + this.inputValue);
     if (this.inputValue === ''){
       return;
     }
@@ -97,10 +101,22 @@ export class Subscription {
       .subscribe(result => {
           if (result) {
             console.log(result.value);
+            if (result.package === this.businessString) {
+              this.setBusinessDiscount(result.value);
+            } else if (result.package === this.premiumString) {
+              this.setPremiumDiscount(result.value);
+            } else if (result.package === this.primaryString) {
+              this.setPrimaryDiscount(result.value);
+            } else if (result.package === 'all') {
+              this.setBusinessDiscount(result.value);
+              this.setPremiumDiscount(result.value);
+              this.setPrimaryDiscount(result.value);
+            }
+            console.log(result);
+            this.coupon = result.promocode;
             this.promoApplied = true;
-            this.primaryViewCost = 20;
-            this.primaryCost = 2000;
-            this.alertUserSubscriptionComplete('Promo code was applied', 'btn btn-success');
+
+            this.alertUserSubscriptionComplete('Promo code: ' + result.description + ' was applied', 'btn btn-success');
           } else {
             this.alertUserSubscriptionComplete('Promo code does not exist', 'btn btn-danger');
           }
@@ -131,7 +147,7 @@ export class Subscription {
 
   private openCheckoutBusiness() {
     if (this.busButton === this.subscribeString) {
-      this.checkout(this.businessCost, this.businessString);
+      this.checkout(this.businessTotalCost, this.businessString);
     } else if (this.busButton === this.cancelString) {
       this.cancel(this.businessString);
     } else {
@@ -141,7 +157,7 @@ export class Subscription {
 
   private openCheckoutPremium() {
     if (this.preButton === this.subscribeString) {
-      this.checkout(this.premiumCost, this.premiumString);
+      this.checkout(this.premiumTotalCost, this.premiumString);
     } else if (this.preButton === this.cancelString) {
       this.cancel(this.premiumString);
     } else {
@@ -151,7 +167,7 @@ export class Subscription {
 
   private openCheckoutPrimary() {
     if (this.priButton === this.subscribeString) {
-      this.checkout(this.primaryCost, this.primaryString);
+      this.checkout(this.primaryTotalCost, this.primaryString);
     } else if (this.priButton === this.cancelString) {
       this.cancel(this.primaryString);
     } else {
@@ -205,7 +221,7 @@ export class Subscription {
 
   private checkout(price, pack) {
     if (this.effDate == '' || new Date() >= this.offsetMaxDate) {
-      this.subscribe(price, pack);
+      this.subscribe(price, pack, 'A subscription was successfully added to your account!');
     } else {
       this.modal.confirm()
         .size('lg')
@@ -222,62 +238,23 @@ export class Subscription {
         .open()
         .then(dialog => dialog.result)
         .then(result => {
-          this.presubscribe(price, pack);
+          this.subscribe(price, pack, 'A subscription was successfully added to your account! You will not be charged till the last day of your current subscription');
         })
         .catch((ex) => {
         });
     }
   }
 
-  private subscribe(price, pack) {
+  private subscribe(price, pack, acceptedText) {
     var me = this;
     var handler = (<any>window).StripeCheckout.configure({
       key: this.stripeTestKey,
       locale: 'auto',
       token: function (token: any) {
-        console.log("hey " + token.id);
-        me.userService.addStripeSubscription(token.id, pack)
+        me.userService.addStripeSubscription(token.id, pack, me.coupon)
           .subscribe(result => {
               if (result) {
-                me.alertUserSubscriptionComplete('A subscription was successfully added to your account!', 'btn btn-success');
-                me.updatebuttons(pack);
-              } else {
-                me.alertUserSubscriptionComplete('There was an error with your subscription, unable to process your card, try again or contact support', 'btn btn-danger');
-              }
-            },
-            (err) => {
-              me.alertUserSubscriptionComplete('There was an error with your subscription, unable to process your card, try again or contact support', 'btn btn-danger');
-            }
-          );
-      }
-    });
-
-    handler.open({
-      name: 'INSTANETWORK INC',
-      description: pack + 'Package',
-      amount: price,
-      image: './assets/img/stripe_logo.jpg',
-      currency: 'cad',
-      'billing-address': true,
-      'panel-label': 'Subscribe'
-    });
-
-    this.globalListener = this.renderer.listenGlobal('window', 'popstate', () => {
-      handler.close();
-    });
-  }
-
-  private presubscribe(price, pack) {
-    var me = this;
-    var handler = (<any>window).StripeCheckout.configure({
-      key: this.stripeTestKey,
-      locale: 'auto',
-      token: function (token: any) {
-        console.log("hey " + token.id);
-        me.userService.addStripeSubscription(token.id, pack)
-          .subscribe(result => {
-              if (result) {
-                me.alertUserSubscriptionComplete('A subscription was successfully added to your account! You will not be charged till the last day of your current subscription', 'btn btn-success');
+                me.alertUserSubscriptionComplete(acceptedText, 'btn btn-success');
                 me.updatebuttons(pack);
               } else {
                 me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support', 'btn btn-danger');
@@ -318,6 +295,22 @@ export class Subscription {
       .open()
   }
 
+  private cancelSubscription(pack) {
+    this.userService.cancelSubscription()
+      .subscribe(result => {
+          if (result) {
+            this.alertUserSubscriptionComplete('The subscription for ' + pack + ' was successfully Cancelled ', 'btn btn-success');
+            this.updatebuttons('');
+          } else {
+            this.alertUserSubscriptionComplete('There was an error with cancelling your subscription, please contact support or try again!', 'btn btn-danger');
+          }
+        },
+        (err) => {
+          this.alertUserSubscriptionComplete('There was an error with cancelling your subscription, please contact support or try again!', 'btn btn-danger');
+        }
+      );
+  }
+
   private updatebuttons(pack) {
     if (pack === this.primaryString) {
       this.priButton = this.cancelString;
@@ -338,22 +331,6 @@ export class Subscription {
     }
   }
 
-  private cancelSubscription(pack) {
-    this.userService.cancelSubscription()
-      .subscribe(result => {
-          if (result) {
-            this.alertUserSubscriptionComplete('The subscription for ' + pack + ' was successfully Cancelled ', 'btn btn-success');
-            this.updatebuttons('');
-          } else {
-            this.alertUserSubscriptionComplete('There was an error with cancelling your subscription, please contact support or try again!', 'btn btn-danger');
-          }
-        },
-        (err) => {
-          this.alertUserSubscriptionComplete('There was an error with cancelling your subscription, please contact support or try again!', 'btn btn-danger');
-        }
-      );
-  }
-
   private changeSubscription(pack) {
     this.userService.upgradeSubscription(pack)
       .subscribe(result => {
@@ -369,5 +346,26 @@ export class Subscription {
           this.alertUserSubscriptionComplete('There was an error with changing your subscription, please contact support or try again!', 'btn btn-danger');
         }
       );
+  }
+
+  private setBusinessDiscount(value) {
+    this.businessPromoApplied = true;
+    var discount = Math.floor(this.businessCost - (this.businessCost * value / 100));
+    this.businessViewCost = discount;
+    this.businessTotalCost = discount * 100;
+  }
+
+  private setPremiumDiscount(value) {
+    this.premiumPromoApplied = true;
+    var discount = Math.floor(this.premiumCost - (this.premiumCost * value / 100));
+    this.premiumViewCost = discount;
+    this.premiumTotalCost = discount * 100;
+  }
+
+  private setPrimaryDiscount(value) {
+    this.primaryPromoApplied = true;
+    var discount = Math.floor(this.primaryCost - (this.primaryCost * value / 100));
+    this.primaryViewCost = discount;
+    this.primaryTotalCost = discount * 100;
   }
 }

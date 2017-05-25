@@ -3,4 +3,5 @@
     promocode: string;
     package: string;
     value: number;
+    description: string;
 }
