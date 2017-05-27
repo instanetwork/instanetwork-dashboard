@@ -9,8 +9,7 @@ import {User} from '../_models/user';
 @Injectable()
 export class UserService {
   private token: string;
-  // private url = 'https://instanetwork.herokuapp.com/';
-  private url = 'http://localhost:3001/';
+  private url = 'https://instanetwork.herokuapp.com/';
   private tokenUrl = '?token=';
 
   constructor(private http: Http,

@@ -6,9 +6,8 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PromotionService {
-  private url = 'http://localhost:3001/';
+  private url = 'https://instanetwork.herokuapp.com/';
 
-  // private url = 'https://instanetwork.herokuapp.com';
   private tokenUrl = '?token=';
 
   constructor(private http: Http) {
