@@ -21,3 +21,69 @@
 .blurCalendar {
   height: 475px;
 }
+
+//colors
+$black_40: rgba(0, 0, 0, 0.4);
+$color_gray_35_approx: rgba(179, 236, 255, 0.35);
+$color_alto_17_approx: rgba(220, 220, 220, .17);
+$color_alto_approx: #dcdcdc;
+$white: #fff;
+$white_10: rgba(255, 255, 255, .1);
+$color_black_20_approx: rgba(1, 1, 1, .2);
+$color_bright_red_approx: #aa0101;
+$color_black_50_approx: rgba(1, 1, 1, .5);
+$white_30: rgba(255, 255, 255, .3);
+$white_20: rgba(255, 255, 255, .2);
+$maroon: #800000;
+$color_black_80_approx: rgba(1, 1, 1, .8);
+$instacolour: #00bfff;
+
+
+.panel {
+  padding: 10px 0 10px 0;
+  text-align: center;
+  margin-bottom: 20px;
+  border-color: $instacolour;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  &:hover {
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 1px 5px $black_40, 0 1px 5px $color_gray_35_approx;
+  }
+}
+
+.panel-body {
+  padding: 0;
+  text-align: center;
+}
+
+.panel-footer {
+  padding: 10px 0 10px 0;
+}
+
+.the-price {
+  background-color: $color_alto_17_approx;
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: 0 1px 0 $color_alto_approx, inset 0 1px 0 $white;
+  padding: 20px;
+  margin: 0;
+  h1 {
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+  }
+  .price-color {
+    color: #8bd22f;
+  }
+}
+
+.table > tbody > tr > td:last-child {
+  padding-right: 16px !important;
+  padding-bottom: 5px;
+}
+.subscript {
+  font-size: 25px;
+}
