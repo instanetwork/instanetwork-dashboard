@@ -12,7 +12,7 @@ import {PromotionService} from '../../_services/promotion.service';
   template: require('./subscription.html')
 })
 export class Subscription {
-  readonly stripeProdKey: string = 'pk_test_rgv209vKtNJJOruFdt12meDo';
+  readonly stripeProdKey: string = 'pk_live_6AYHDN4oEUxc2iOUNTA5cSyc';
   readonly stripeTestKey: string = 'pk_test_rgv209vKtNJJOruFdt12meDo';
   readonly subscribeString: string = 'Subscribe';
   readonly cancelString: string = 'Cancel';
