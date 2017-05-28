@@ -248,7 +248,7 @@ export class Subscription {
   private subscribe(price, pack, acceptedText) {
     var me = this;
     var handler = (<any>window).StripeCheckout.configure({
-      key: this.stripeTestKey,
+      key: this.stripeProdKey,
       locale: 'auto',
       token: function (token: any) {
         me.userService.addStripeSubscription(token.id, pack, me.coupon)
@@ -261,7 +261,13 @@ export class Subscription {
               }
             },
             (err) => {
-              me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support', 'btn btn-danger');
+              if(err.status === 402) {
+                console.log(err);
+                me.alertUserSubscriptionComplete(err._body, 'btn btn-danger');
+              } else {
+                console.log(err);
+                me.alertUserSubscriptionComplete('There was an error with your subscription, please try again or contact support', 'btn btn-danger');
+              }
             }
           );
       }
@@ -343,7 +349,11 @@ export class Subscription {
           }
         },
         (err) => {
-          this.alertUserSubscriptionComplete('There was an error with changing your subscription, please contact support or try again!', 'btn btn-danger');
+          if(err.status === 402) {
+            this.alertUserSubscriptionComplete(err._body, 'btn btn-danger');
+          } else {
+            this.alertUserSubscriptionComplete('There was an error with changing your subscription, please contact support or try again!', 'btn btn-danger');
+          }
         }
       );
   }
