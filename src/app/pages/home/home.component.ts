@@ -1,7 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation, Renderer, ViewContainerRef} from '@angular/core';
 import {SubscriptionService} from '../../_services/subscription.service';
 import 'rxjs/Rx';
 import {Subscription} from '../../_models/subscription';
+import {Overlay} from 'angular2-modal';
+import {Modal} from 'angular2-modal/plugins/bootstrap';
 
 @Component({
   selector: 'home',
@@ -16,7 +18,8 @@ export class Home {
   private subExists: boolean;
   private trialClicked: boolean;
 
-  constructor(private subscriptionService: SubscriptionService) {
+  constructor(private renderer: Renderer, private subscriptionService: SubscriptionService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
+    overlay.defaultViewContainer = vcRef;
     this.trial = false;
     this.subExists = false;
     this.trialClicked = false;
@@ -32,6 +35,17 @@ export class Home {
           this.subscriptionService.addTrial()
             .subscribe(subs => {
               this.subs = this.formatJson(subs);
+              
+              this.modal.alert()
+                .size('lg')
+                .isBlocking(true)
+                .showClose(true)
+                .keyboard(27)
+                .title('Completed')
+                .titleHtml('Instanetwork Subscription')
+                .okBtnClass('btn btn-success')
+                .body('Welcome to Instanetwork! Your trial has automatically started but you still need to connect to your Instagram account. Please navigate to the dashboard page, enter your targeted hashtags and hit start service.')
+                .open();
             });
         }
       });
