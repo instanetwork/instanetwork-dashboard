@@ -33,7 +33,7 @@ export class Dashboard {
   private hashtags: string[] = [];
   private inputValue: string = "";
   private inputInvalid: boolean = false;
-  private allowedTagCharacters = new RegExp('[^A-Za-z0-9]');
+  private allowedTagCharacters = new RegExp('[^A-Za-z0-9_]');
   private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_.]');
   private error: string = "";
   private loginError: string = "";
