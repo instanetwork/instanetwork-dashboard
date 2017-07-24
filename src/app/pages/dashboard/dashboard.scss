@@ -67,6 +67,30 @@ h3 small, h3 .small, .h3 .small {
   color: black;
 }
 
+@media screen and (min-width: 481px) {
+  #container-size {
+    width: 420px;
+  }
+  #service-check-box {
+    float: right;
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  .start-stop-button {
+    float: left;
+  }
+  #service-check-box {
+    width: 240px;
+  }
+}
+
+@media screen and (max-width: 481px) {
+  #service-check-box {
+    margin-top: 15px;
+    margin-left: 5px;
+  }
+}
+
 #inputUsernameLabelForm5 {
   display: inline-block;
   max-width: 100%;
@@ -85,4 +109,8 @@ h3 small, h3 .small, .h3 .small {
 
 .loadingImage {
   margin-right: 10px;
+}
+
+.checkbox-error{
+  color: #f95372;
 }

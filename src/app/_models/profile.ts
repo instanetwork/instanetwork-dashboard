@@ -7,4 +7,6 @@ export interface Profile {
   lastran: string;
   laststart: string;
   status: number;
+  like: number;
+  follow: number;
 }

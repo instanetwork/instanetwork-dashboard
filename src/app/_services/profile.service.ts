@@ -27,7 +27,7 @@ export class ProfileService {
     return this.http.post(this.url + 'stop/' + id + this.tokenUrl + session, {}, options).map(res => res.json());
   }
 
-  startService(tags, username, password, ip): Observable<Profile[]> {
+  startService(tags, username, password, ip, follow, like): Observable<Profile[]> {
     let session = JSON.parse(localStorage.getItem('currentUser')).token;
     let id = JSON.parse(localStorage.getItem('currentUser')).id;
     let headers = new Headers({'Content-Type': 'application/json'});
@@ -36,7 +36,9 @@ export class ProfileService {
       'tags': tags,
       'username': username,
       'password': password,
-      'ip': ip
+      'ip': ip,
+      'follow': follow,
+      'like': like,
     }, options).map(res => res.json());
   }
 }

@@ -37,6 +37,7 @@ export class Dashboard {
   private allowedUsernameCharacters = new RegExp('[^A-Za-z0-9_.]');
   private error: string = "";
   private loginError: string = "";
+  private checkBoxError: boolean = false;
   private lastHighlightedTag: string = "";
   private maxHashtags: number = 50;
   private instaUsername: string = "";
@@ -47,6 +48,24 @@ export class Dashboard {
   private ipInfo: Ip;
   private active: boolean = false;
   private usernameError: string = "";
+  private likeChecked: number = 1;
+  private followChecked: number = 1;
+
+  public checkboxModel = [{
+    name: 'Like Service',
+    checked: true,
+  }, {
+    name: 'Follow Service',
+    checked: true
+  }];
+
+  public checkboxPropertiesMapping = {
+    model: 'checked',
+    value: 'name',
+    label: 'name',
+    baCheckboxClass: 'class'
+  };
+
   constructor(private router: Router, private subscriptionService: SubscriptionService, private hashtagService: HashtagService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private instagramAuthenticationService: InstagramAuthenticationService, private profileService: ProfileService, private ipService: IpService) {
     overlay.defaultViewContainer = vcRef;
   }
@@ -67,6 +86,13 @@ export class Dashboard {
         var currentTimeUnix = new Date().valueOf();
         var diffStart = currentTimeUnix - lastStartUnix;
         var diffStop = currentTimeUnix - lastStopUnix;
+
+        this.followChecked = profile[0].follow;
+        this.likeChecked = profile[0].like;
+
+        this.checkboxModel[0].checked = !!+profile[0].like;
+        this.checkboxModel[1].checked = !!+profile[0].follow;
+
         if (diffStart < 60000) {
           this.onWaitingComplete(this.modalStarting, profile, diffStart, 'Instanetwork Service Started');
         } else if (diffStop < 60000) {
@@ -284,6 +310,16 @@ export class Dashboard {
     }
   }
 
+  onCheckboxClicked(target) {
+    if (target.value == 'Like Service') {
+      this.likeChecked = target.checked ? 1 : 0;
+    } else if (target.value == 'Follow Service') {
+      this.followChecked = target.checked ? 1 : 0;
+    }
+
+    this.checkBoxError = (!this.likeChecked && !this.followChecked);
+  }
+
   onStopService() {
     if (!this.active)  {
       this.noSubscriptionAlert();
@@ -322,7 +358,8 @@ export class Dashboard {
   }
 
   onStartConfirmed() {
-    this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, this.ipInfo.ip)
+    console.log(this.followChecked + " " + this.likeChecked);
+    this.profileService.startService(this.hashtags, this.instaUsername, this.instaPassword, this.ipInfo.ip, this.followChecked, this.likeChecked)
       .subscribe(res => {
           if (this.profile.length == 0 || !this.profile[0].ip) {
             this.incrementIp(this.ipInfo.ip);

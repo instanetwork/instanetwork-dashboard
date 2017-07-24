@@ -49,15 +49,21 @@
 
 <div class="row">
   <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <button type="button" *ngIf="activeService === 0" class="btn btn-default btn-lg"
-            [class.disabled]="hashtags.length === 0"
-            (click)="hashtags.length != 0 && modal.open()"><i class="ion-ios-play"></i>
+    <div id="container-size">
+    <div id="service-check-box">
+      <ba-multi-checkbox [(ngModel)]="checkboxModel" [propertiesMapping]="checkboxPropertiesMapping" (change)="onCheckboxClicked($event.target)"></ba-multi-checkbox>
+      <p *ngIf="checkBoxError" class="checkbox-error">{{'Please choose at least one service'}}</p>
+    </div>
+    <button type="button" *ngIf="activeService === 0" class="btn btn-default btn-lg start-stop-button"
+            [class.disabled]="hashtags.length === 0 || checkBoxError"
+            (click)="!checkBoxError && hashtags.length != 0 && modal.open()"><i class="ion-ios-play"></i>
       Start Service
     </button>
-    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg" (click)="onStopService()"><i
+    <button *ngIf="activeService === 1" type="button" class="btn btn-default btn-lg start-stop-button" (click)="onStopService()"><i
       class="ion-stop"></i>
       Stop Service
     </button>
+    </div>
   </div>
 </div>
 
