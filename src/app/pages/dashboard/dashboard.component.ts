@@ -50,6 +50,7 @@ export class Dashboard {
   private usernameError: string = "";
   private likeChecked: number = 1;
   private followChecked: number = 1;
+  private firstServiceClick: boolean = true;
 
   public checkboxModel = [{
     name: 'Like Service',
@@ -209,7 +210,7 @@ export class Dashboard {
       .keyboard(27)
       .title('Save')
       .titleHtml('Are you sure you want to save these hashtags?')
-      .body('These hashtags will take affect at 12 AM/PM EST. Your hashtags can take affect immediately by starting or restarting your service.')
+      .body('These hashtags will take affect at 6:00 AM UTC. Your hashtags can take affect immediately by starting or restarting your service.')
       .okBtn('Save')
       .okBtnClass('btn btn-success')
       .cancelBtn('Cancel')
@@ -318,6 +319,22 @@ export class Dashboard {
     }
 
     this.checkBoxError = (!this.likeChecked && !this.followChecked);
+
+    console.log("hey");
+    if (this.firstServiceClick) {
+      this.modal.alert()
+        .size('sm')
+        .isBlocking(true)
+        .showClose(true)
+        .keyboard(27)
+        .title('Completed')
+        .titleHtml('Instanetwork Service')
+        .okBtnClass('btn btn-success')
+        .body('You must start or restart the service for the service selection to take affect')
+        .open();
+
+      this.firstServiceClick = false;
+    }
   }
 
   onStopService() {
