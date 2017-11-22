@@ -21,9 +21,9 @@ export class Subscription {
   readonly primaryString: string = 'Primary';
   readonly premiumString: string = 'Premium';
   readonly businessString: string = 'Business';
-  readonly businessCost: number = 100;
-  readonly premiumCost: number = 80;
-  readonly primaryCost: number = 60;
+  readonly businessCost: number = 59;
+  readonly premiumCost: number = 39;
+  readonly primaryCost: number = 19;
 
   private currentUser: number;
   private globalListener: any;
@@ -36,12 +36,12 @@ export class Subscription {
   private promoApplied: boolean = false;
   private inputValue: string = '';
 
-  private businessTotalCost: number = 10000;
-  private premiumTotalCost: number = 8000;
-  private primaryTotalCost: number = 6000;
-  private businessViewCost: number = 100;
-  private premiumViewCost: number = 80;
-  private primaryViewCost: number = 60;
+  private businessTotalCost: number = 5900;
+  private premiumTotalCost: number = 3900;
+  private primaryTotalCost: number = 1900;
+  private businessViewCost: number = 59;
+  private premiumViewCost: number = 39;
+  private primaryViewCost: number = 19;
   private businessPromoApplied: boolean = false;
   private premiumPromoApplied: boolean = false;
   private primaryPromoApplied: boolean = false;
